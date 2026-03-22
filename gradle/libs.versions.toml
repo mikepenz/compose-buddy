@@ -1,0 +1,60 @@
+[versions]
+kotlin = "2.3.20"
+kotlinx-serialization = "1.11.0"
+ktor = "3.4.2"
+clikt = "5.1.0"
+junit5 = "5.11.4"
+layoutlib = "16.2.1"
+layoutlib-api = "32.1.1"
+android-tools = "32.1.1"
+composable-preview-scanner = "0.4.0"
+mcp-kotlin-sdk = "0.11.1"
+kermit = "2.1.0"
+bytebuddy = "1.18.8"
+paparazzi = "2.0.0-alpha04"
+coil = "3.4.0"
+nucleus = "1.14.0"
+ksp = "2.3.6"
+activityCompose = "1.13.0"
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
+junit5 = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit5" }
+layoutlib = { module = "com.android.tools.layoutlib:layoutlib", version.ref = "layoutlib" }
+layoutlib-runtime = { module = "com.android.tools.layoutlib:layoutlib-runtime", version.ref = "layoutlib" }
+layoutlib-resources = { module = "com.android.tools.layoutlib:layoutlib-resources", version.ref = "layoutlib" }
+layoutlib-api = { module = "com.android.tools.layoutlib:layoutlib-api", version.ref = "layoutlib-api" }
+android-tools-common = { module = "com.android.tools:common", version.ref = "android-tools" }
+android-tools-sdk-common = { module = "com.android.tools:sdk-common", version.ref = "android-tools" }
+android-tools-ninepatch = { module = "com.android.tools:ninepatch", version.ref = "android-tools" }
+bytebuddy-agent = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "bytebuddy" }
+bytebuddy-core = { module = "net.bytebuddy:byte-buddy", version.ref = "bytebuddy" }
+trove4j = { module = "org.jetbrains.intellij.deps:trove4j", version = "1.0.20200330" }
+kxml2 = { module = "kxml2:kxml2", version = "2.3.0" }
+composable-preview-scanner = { module = "io.github.nicbell:composable-preview-scanner", version.ref = "composable-preview-scanner" }
+mcp-kotlin-sdk = { module = "io.modelcontextprotocol:kotlin-sdk", version.ref = "mcp-kotlin-sdk" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+paparazzi = { module = "app.cash.paparazzi:paparazzi", version.ref = "paparazzi" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+nucleus-decorated-window-core = { module = "io.github.kdroidfilter:nucleus.decorated-window-core", version.ref = "nucleus" }
+nucleus-decorated-window-jni = { module = "io.github.kdroidfilter:nucleus.decorated-window-jni", version.ref = "nucleus" }
+nucleus-decorated-window-material3 = { module = "io.github.kdroidfilter:nucleus.decorated-window-material3", version.ref = "nucleus" }
+nucleus-darkmode-detector = { module = "io.github.kdroidfilter:nucleus.darkmode-detector", version.ref = "nucleus" }
+ksp-api = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
+kotlin-compile-testing-ksp = { module = "com.github.tschuchortdev:kotlin-compile-testing-ksp", version = "1.6.0" }
+ktor-server-cio = { module = "io.ktor:ktor-server-cio", version.ref = "ktor" }
+ktor-server-websockets = { module = "io.ktor:ktor-server-websockets", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-websockets = { module = "io.ktor:ktor-client-websockets", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+
+[plugins]
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

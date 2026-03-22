@@ -1,0 +1,33 @@
+# Gradle
+build/
+.gradle/
+out/
+
+# IDE
+.idea/
+*.iml
+
+# Kotlin
+*.class
+*.jar
+.kotlin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env*
+*.log
+*.tmp
+*.swp
+
+# Specify / research / AI tooling
+.specify/
+.autoresearch/
+.claude/
+specs/
+androidx/
+
+# Local Gradle / SDK configuration
+local.properties
