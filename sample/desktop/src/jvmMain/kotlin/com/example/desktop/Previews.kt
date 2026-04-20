@@ -2,36 +2,31 @@ package com.example.desktop
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.desktop.components.ListItemRow
+import com.example.desktop.components.SampleCard
+import com.example.desktop.components.SectionHeader
 import com.example.desktop.theme.BuddyColors
-import com.example.desktop.theme.BuddyShapes
 
 // ============================================================
 // 1. Simple Box — minimal preview, tests basic rendering
@@ -83,25 +78,7 @@ fun PaddedColumnPreview() {
 @Composable
 fun SampleCardPreview() {
     MaterialTheme(colorScheme = lightColorScheme()) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            shape = BuddyShapes.card,
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "Hello Desktop",
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = "Material3 on Compose Desktop",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        }
+        SampleCard(title = "Hello Desktop", subtitle = "Material3 on Compose Desktop")
     }
 }
 
@@ -154,16 +131,7 @@ fun AccessibleButtonPreview() {
 fun ComplexLayoutPreview() {
     MaterialTheme {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text("Desktop App", style = MaterialTheme.typography.headlineSmall)
-                IconButton(onClick = { }) {
-                    Text("⚙")
-                }
-            }
+            SectionHeader(title = "Desktop App", onAction = { })
             Spacer(modifier = Modifier.height(16.dp))
             repeat(3) { index ->
                 Card(
@@ -171,21 +139,10 @@ fun ComplexLayoutPreview() {
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
                 ) {
-                    Row(
-                        modifier = Modifier.padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(BuddyColors.Blue, BuddyShapes.avatar),
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column {
-                            Text("Item ${index + 1}", style = MaterialTheme.typography.titleSmall)
-                            Text("Description for item ${index + 1}", style = MaterialTheme.typography.bodySmall)
-                        }
-                    }
+                    ListItemRow(
+                        title = "Item ${index + 1}",
+                        description = "Description for item ${index + 1}",
+                    )
                 }
             }
         }
