@@ -50,7 +50,7 @@ fun ListItemRow(
 
 @Preview
 @Composable
-private fun ListItemRowPreview_Default() {
+internal fun ListItemRowPreview_Default() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
             ListItemRow(title = "Item", description = "Short description")
@@ -60,7 +60,7 @@ private fun ListItemRowPreview_Default() {
 
 @Preview
 @Composable
-private fun ListItemRowPreview_Dark() {
+internal fun ListItemRowPreview_Dark() {
     MaterialTheme(colorScheme = darkColorScheme()) {
         Surface(color = MaterialTheme.colorScheme.surface) {
             Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
@@ -72,7 +72,7 @@ private fun ListItemRowPreview_Dark() {
 
 @Preview
 @Composable
-private fun ListItemRowPreview_LongDescription() {
+internal fun ListItemRowPreview_LongDescription() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
             ListItemRow(

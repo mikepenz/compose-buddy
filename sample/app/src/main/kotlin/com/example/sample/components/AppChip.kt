@@ -41,7 +41,7 @@ fun AppChip(
 }
 
 @Composable
-private fun ChipRow(content: @Composable () -> Unit) {
+internal fun ChipRow(content: @Composable () -> Unit) {
     Surface(color = MaterialTheme.colorScheme.surface) {
         Row(
             modifier = Modifier.padding(12.dp),
@@ -52,7 +52,7 @@ private fun ChipRow(content: @Composable () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-private fun AppChipPreview_Unselected() {
+internal fun AppChipPreview_Unselected() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         ChipRow { AppChip(label = "Filter", selected = false, onClick = {}) }
     }
@@ -60,7 +60,7 @@ private fun AppChipPreview_Unselected() {
 
 @Preview(showBackground = true)
 @Composable
-private fun AppChipPreview_Selected() {
+internal fun AppChipPreview_Selected() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         ChipRow { AppChip(label = "Filter", selected = true, onClick = {}) }
     }
@@ -68,7 +68,7 @@ private fun AppChipPreview_Selected() {
 
 @Preview(showBackground = true)
 @Composable
-private fun AppChipPreview_Disabled() {
+internal fun AppChipPreview_Disabled() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         ChipRow { AppChip(label = "Filter", selected = false, onClick = {}, enabled = false) }
     }
@@ -76,7 +76,7 @@ private fun AppChipPreview_Disabled() {
 
 @Preview(showBackground = true)
 @Composable
-private fun AppChipPreview_Disabled_Selected() {
+internal fun AppChipPreview_Disabled_Selected() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         ChipRow { AppChip(label = "Filter", selected = true, onClick = {}, enabled = false) }
     }
@@ -84,7 +84,7 @@ private fun AppChipPreview_Disabled_Selected() {
 
 @Preview(showBackground = true)
 @Composable
-private fun AppChipPreview_Pressed() {
+internal fun AppChipPreview_Pressed() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         val source = remember { MutableInteractionSource() }
         LaunchedEffect(source) {
@@ -103,7 +103,7 @@ private fun AppChipPreview_Pressed() {
 
 @Preview(showBackground = true, backgroundColor = 0xFF121212)
 @Composable
-private fun AppChipPreview_Dark() {
+internal fun AppChipPreview_Dark() {
     MaterialTheme(colorScheme = darkColorScheme()) {
         ChipRow {
             AppChip(label = "Off", selected = false, onClick = {})

@@ -52,7 +52,7 @@ fun AppToggle(
 }
 
 @Composable
-private fun TogglePreviewFrame(content: @Composable () -> Unit) {
+internal fun TogglePreviewFrame(content: @Composable () -> Unit) {
     Surface(color = MaterialTheme.colorScheme.surface) {
         content()
     }
@@ -60,7 +60,7 @@ private fun TogglePreviewFrame(content: @Composable () -> Unit) {
 
 @Preview
 @Composable
-private fun AppTogglePreview_Off() {
+internal fun AppTogglePreview_Off() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         TogglePreviewFrame {
             AppToggle(label = "Enable notifications", checked = false, onCheckedChange = {})
@@ -70,7 +70,7 @@ private fun AppTogglePreview_Off() {
 
 @Preview
 @Composable
-private fun AppTogglePreview_On() {
+internal fun AppTogglePreview_On() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         TogglePreviewFrame {
             AppToggle(label = "Enable notifications", checked = true, onCheckedChange = {})
@@ -80,7 +80,7 @@ private fun AppTogglePreview_On() {
 
 @Preview
 @Composable
-private fun AppTogglePreview_Disabled_Off() {
+internal fun AppTogglePreview_Disabled_Off() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         TogglePreviewFrame {
             AppToggle(label = "Enable notifications", checked = false, onCheckedChange = {}, enabled = false)
@@ -90,7 +90,7 @@ private fun AppTogglePreview_Disabled_Off() {
 
 @Preview
 @Composable
-private fun AppTogglePreview_Disabled_On() {
+internal fun AppTogglePreview_Disabled_On() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         TogglePreviewFrame {
             AppToggle(label = "Enable notifications", checked = true, onCheckedChange = {}, enabled = false)
@@ -100,7 +100,7 @@ private fun AppTogglePreview_Disabled_On() {
 
 @Preview
 @Composable
-private fun AppTogglePreview_Hovered() {
+internal fun AppTogglePreview_Hovered() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         val source = remember { MutableInteractionSource() }
         LaunchedEffect(source) {
@@ -119,7 +119,7 @@ private fun AppTogglePreview_Hovered() {
 
 @Preview
 @Composable
-private fun AppTogglePreview_Dark() {
+internal fun AppTogglePreview_Dark() {
     MaterialTheme(colorScheme = darkColorScheme()) {
         TogglePreviewFrame {
             AppToggle(label = "Enable notifications", checked = true, onCheckedChange = {})

@@ -46,7 +46,7 @@ fun SampleCard(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
 @Composable
-private fun SampleCardPreview_Default() {
+internal fun SampleCardPreview_Default() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         SampleCard(title = "Hello World", subtitle = "This is a sample card")
     }
@@ -54,7 +54,7 @@ private fun SampleCardPreview_Default() {
 
 @Preview(showBackground = true, backgroundColor = 0xFF121212)
 @Composable
-private fun SampleCardPreview_Dark() {
+internal fun SampleCardPreview_Dark() {
     MaterialTheme(colorScheme = darkColorScheme()) {
         Surface(color = MaterialTheme.colorScheme.surface) {
             SampleCard(title = "Dark Mode", subtitle = "Testing dark theme rendering")
@@ -64,7 +64,7 @@ private fun SampleCardPreview_Dark() {
 
 @Preview(showBackground = true, widthDp = 280)
 @Composable
-private fun SampleCardPreview_LongTitle() {
+internal fun SampleCardPreview_LongTitle() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         SampleCard(
             title = "A considerably longer title that should wrap across lines",

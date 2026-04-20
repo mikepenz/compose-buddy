@@ -43,7 +43,7 @@ fun SectionHeader(
 
 @Preview
 @Composable
-private fun SectionHeaderPreview_Default() {
+internal fun SectionHeaderPreview_Default() {
     MaterialTheme(colorScheme = lightColorScheme()) {
         SectionHeader(title = "Desktop App", onAction = {}, modifier = Modifier.padding(16.dp))
     }
@@ -51,7 +51,7 @@ private fun SectionHeaderPreview_Default() {
 
 @Preview
 @Composable
-private fun SectionHeaderPreview_Dark() {
+internal fun SectionHeaderPreview_Dark() {
     MaterialTheme(colorScheme = darkColorScheme()) {
         Surface(color = MaterialTheme.colorScheme.surface) {
             SectionHeader(title = "Desktop App", onAction = {}, modifier = Modifier.padding(16.dp))
