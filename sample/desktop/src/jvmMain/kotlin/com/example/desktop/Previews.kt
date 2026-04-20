@@ -30,6 +30,8 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.desktop.theme.BuddyColors
+import com.example.desktop.theme.BuddyShapes
 
 // ============================================================
 // 1. Simple Box — minimal preview, tests basic rendering
@@ -41,7 +43,7 @@ fun SimpleBoxPreview() {
     Box(
         modifier = Modifier
             .size(200.dp)
-            .background(Color(0xFF1A73E8)),
+            .background(BuddyColors.Blue),
     )
 }
 
@@ -61,14 +63,14 @@ fun PaddedColumnPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(Color(0xFF4CAF50)),
+                .background(BuddyColors.Green),
         )
         Spacer(modifier = Modifier.height(8.dp))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(Color(0xFFF44336)),
+                .background(BuddyColors.Red),
         )
     }
 }
@@ -85,7 +87,7 @@ fun SampleCardPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            shape = RoundedCornerShape(12.dp),
+            shape = BuddyShapes.card,
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
@@ -176,7 +178,7 @@ fun ComplexLayoutPreview() {
                         Box(
                             modifier = Modifier
                                 .size(40.dp)
-                                .background(Color(0xFF1A73E8), RoundedCornerShape(20.dp)),
+                                .background(BuddyColors.Blue, BuddyShapes.avatar),
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
