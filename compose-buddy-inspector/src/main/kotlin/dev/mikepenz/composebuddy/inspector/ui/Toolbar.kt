@@ -1,5 +1,10 @@
 package dev.mikepenz.composebuddy.inspector.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,16 +13,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.GridOn
+import androidx.compose.material.icons.filled.Layers
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.VerticalSplit
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,6 +37,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -200,80 +214,215 @@ fun Toolbar(
     onToggleSettings: () -> Unit,
     onOpenSpotlight: () -> Unit,
     modifier: Modifier = Modifier,
+    showGuides: Boolean = true,
+    onToggleGuides: () -> Unit = {},
+    leftPanelVisible: Boolean = true,
+    onToggleLeftPanel: () -> Unit = {},
+    rightPanelVisible: Boolean = true,
+    onToggleRightPanel: () -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
+    val tokens = InspectorTokens.current
     var isRerendering by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     val currentPreset = DEVICE_PRESETS.getOrNull(settings.selectedPresetIndex)
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier.background(tokens.bgWindow)) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(InspectorSpacing.toolbarHeight)
+            .padding(horizontal = 14.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        // Preview selector (opens spotlight search)
-        OutlinedButton(onClick = onOpenSpotlight) {
-            val displayName = selectedPreviewName?.substringAfterLast('.') ?: "Select Preview"
-            Text(displayName, maxLines = 1, overflow = TextOverflow.Ellipsis, fontSize = 12.sp)
+        // Preview selector (opens spotlight search) — layers icon + name + ⌘K badge
+        val displayName = selectedPreviewName?.substringAfterLast('.') ?: "Select Preview"
+        Row(
+            modifier = Modifier
+                .height(30.dp)
+                .widthIn(min = 160.dp, max = 260.dp)
+                .clip(RoundedCornerShape(InspectorRadius.md))
+                .background(tokens.bgPanel)
+                .border(0.5.dp, tokens.line2, RoundedCornerShape(InspectorRadius.md))
+                .clickable(onClick = onOpenSpotlight)
+                .padding(horizontal = 10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Icon(
+                Icons.Default.Layers,
+                contentDescription = null,
+                modifier = Modifier.size(12.dp),
+                tint = tokens.fg3,
+            )
+            Text(
+                displayName,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontSize = InspectorType.toolbarText,
+                fontWeight = FontWeight.Medium,
+                color = tokens.fg1,
+                modifier = Modifier.weight(1f),
+            )
+            KbdBadge("⌘K")
         }
 
-        Spacer(Modifier.width(8.dp))
-
-        // Re-render button
-        Button(
-            onClick = {
-                scope.launch {
-                    isRerendering = true
-                    errorMessage = null
-                    withContext(Dispatchers.IO) {
-                        val config = settings.renderConfig.takeIf { it.widthDp > 0 || it.heightDp > 0 || it.densityDpi > 0 }
-                        session.triggerRerender(config)
+        // Re-render button — outlined "ghost" style per the HTML's primary toolbar btn
+        Row(
+            modifier = Modifier
+                .height(28.dp)
+                .clip(RoundedCornerShape(InspectorRadius.tab))
+                .background(tokens.bgHover)
+                .border(0.5.dp, tokens.line2, RoundedCornerShape(InspectorRadius.tab))
+                .clickable(enabled = !isRerendering) {
+                    scope.launch {
+                        isRerendering = true
+                        errorMessage = null
+                        withContext(Dispatchers.IO) {
+                            val config = settings.renderConfig.takeIf { it.widthDp > 0 || it.heightDp > 0 || it.densityDpi > 0 }
+                            session.triggerRerender(config)
+                        }
+                        errorMessage = session.lastRenderError
+                        isRerendering = false
+                        onRerendered()
                     }
-                    errorMessage = session.lastRenderError
-                    isRerendering = false
-                    onRerendered()
                 }
-            },
-            enabled = !isRerendering,
+                .padding(horizontal = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            Text(if (isRerendering) "Rendering..." else "Re-render", fontSize = 12.sp)
+            Icon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = null,
+                modifier = Modifier.size(12.dp),
+                tint = tokens.fg1,
+            )
+            Text(
+                text = if (isRerendering) "Rendering…" else "Re-render",
+                fontSize = InspectorType.toolbarText,
+                fontWeight = FontWeight.Medium,
+                color = tokens.fg1,
+            )
         }
 
         if (isRerendering) {
-            Spacer(Modifier.width(4.dp))
-            CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+            CircularProgressIndicator(modifier = Modifier.size(14.dp), strokeWidth = 2.dp)
         }
 
         errorMessage?.let { error ->
-            Spacer(Modifier.width(4.dp))
-            Text(error, color = MaterialTheme.colorScheme.error, fontSize = 11.sp, maxLines = 1)
+            Text(
+                text = error,
+                color = MaterialTheme.colorScheme.error,
+                fontSize = 11.sp,
+                maxLines = 1,
+            )
         }
 
         Spacer(Modifier.weight(1f))
 
-        // Device label
+        // Stats: "127 previews · 3 frames" — bold counts, muted body, dot dividers
         if (currentPreset != null && currentPreset.name != "Default") {
-            Text(currentPreset.name, fontSize = 10.sp, color = MaterialTheme.colorScheme.outline)
-            Spacer(Modifier.width(4.dp))
+            Text(
+                text = currentPreset.name,
+                fontSize = 11.sp,
+                color = tokens.fg3,
+                fontFamily = FontFamily.Monospace,
+            )
+            Box(modifier = Modifier.size(width = 1.dp, height = 14.dp).background(tokens.line2))
         }
 
         val previewCount = session.previewDefs.size.takeIf { it > 0 } ?: session.availablePreviews.size
-        Text(
-            "$previewCount previews · ${session.frames.size} frames",
-            fontSize = 11.sp,
-            color = MaterialTheme.colorScheme.outline,
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        ) {
+            StatChip(count = previewCount, label = "previews")
+            Box(modifier = Modifier.size(width = 1.dp, height = 14.dp).background(tokens.line2))
+            StatChip(count = session.frames.size, label = "frames")
+        }
+
+        Spacer(Modifier.width(4.dp))
+
+        // Left panel toggle
+        ToolbarIconButton(active = leftPanelVisible, onClick = onToggleLeftPanel) {
+            Icon(
+                imageVector = Icons.Default.VerticalSplit,
+                contentDescription = "Toggle left panel",
+                modifier = Modifier.size(14.dp),
+                tint = if (leftPanelVisible) tokens.accent else tokens.fg2,
+            )
+        }
+
+        // Right panel toggle (mirrored)
+        ToolbarIconButton(active = rightPanelVisible, onClick = onToggleRightPanel) {
+            Icon(
+                imageVector = Icons.Default.VerticalSplit,
+                contentDescription = "Toggle right panel",
+                modifier = Modifier.size(14.dp).graphicsLayer(scaleX = -1f),
+                tint = if (rightPanelVisible) tokens.accent else tokens.fg2,
+            )
+        }
+
+        // Guides toggle (grid icon)
+        ToolbarIconButton(active = showGuides, onClick = onToggleGuides) {
+            Icon(
+                imageVector = Icons.Default.GridOn,
+                contentDescription = "Toggle guides",
+                modifier = Modifier.size(14.dp),
+                tint = if (showGuides) tokens.accent else tokens.fg2,
+            )
+        }
 
         // Settings toggle
-        IconButton(onClick = onToggleSettings) {
+        ToolbarIconButton(active = showSettings, onClick = onToggleSettings) {
             Icon(
-                Icons.Default.Settings,
+                imageVector = Icons.Default.Settings,
                 contentDescription = "Settings",
-                modifier = Modifier.size(20.dp),
-                tint = if (showSettings) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(14.dp),
+                tint = if (showSettings) tokens.accent else tokens.fg2,
             )
         }
     }
-    HorizontalDivider()
+    Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(tokens.line1))
     }
+}
+
+@Composable
+private fun StatChip(count: Int, label: String) {
+    val tokens = InspectorTokens.current
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Text(
+            text = count.toString(),
+            color = tokens.fg1,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.SemiBold,
+            fontFamily = FontFamily.Monospace,
+        )
+        Text(
+            text = label,
+            color = tokens.fg3,
+            fontSize = 11.5.sp,
+        )
+    }
+}
+
+@Composable
+private fun ToolbarIconButton(
+    active: Boolean,
+    onClick: () -> Unit,
+    content: @Composable () -> Unit,
+) {
+    val tokens = InspectorTokens.current
+    Box(
+        modifier = Modifier
+            .size(28.dp)
+            .clip(RoundedCornerShape(InspectorRadius.tab))
+            .background(if (active) tokens.bgActive else androidx.compose.ui.graphics.Color.Transparent)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) { content() }
 }

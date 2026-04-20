@@ -1,14 +1,22 @@
 package dev.mikepenz.composebuddy.inspector
 
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.isMetaPressed
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.type
 import dev.mikepenz.composebuddy.core.VERSION
 import dev.mikepenz.composebuddy.inspector.ui.InspectorApp
 import dev.mikepenz.composebuddy.inspector.ui.InspectorTheme
@@ -37,6 +45,15 @@ fun launchInspector(
 
     application {
         var settings by remember { mutableStateOf(InspectorSettings()) }
+        var showSpotlight by remember { mutableStateOf(false) }
+
+        // ⌘K (macOS) / Ctrl+K (other) — Nucleus global hotkey, with an in-window
+        // Window.onKeyEvent fallback when the native subsystem isn't available.
+        val hotkey = remember { GlobalHotkeyController() }
+        androidx.compose.runtime.DisposableEffect(Unit) {
+            hotkey.tryRegister { showSpotlight = !showSpotlight }
+            onDispose { hotkey.shutdown() }
+        }
 
         val systemDark = io.github.kdroidfilter.nucleus.darkmodedetector.isSystemInDarkMode()
         val isDark = when (settings.themeMode) {
@@ -45,11 +62,34 @@ fun launchInspector(
             ThemeMode.DARK -> true
         }
 
+        val windowState = rememberWindowState(width = 1280.dp, height = 800.dp)
+        LaunchedEffect(windowState) {
+            androidx.compose.runtime.snapshotFlow { windowState.size }
+                .collect { size ->
+                    val minW = 360.dp
+                    val minH = 240.dp
+                    if (size.width < minW || size.height < minH) {
+                        val w = if (size.width < minW) minW else size.width
+                        val h = if (size.height < minH) minH else size.height
+                        windowState.size = DpSize(w, h)
+                    }
+                }
+        }
+
         InspectorTheme(darkTheme = isDark) {
             MaterialDecoratedWindow(
                 onCloseRequest = ::exitApplication,
                 title = "Compose Buddy Inspector v$VERSION",
-                state = rememberWindowState(width = 1280.dp, height = 800.dp),
+                state = windowState,
+                onKeyEvent = { e ->
+                    // In-window fallback: only fires when the inspector window is focused.
+                    if (e.type == KeyEventType.KeyDown && e.key == Key.K &&
+                        (e.isMetaPressed || e.isCtrlPressed)
+                    ) {
+                        showSpotlight = !showSpotlight
+                        true
+                    } else false
+                },
             ) {
                 MaterialTitleBar {
                     Text(
@@ -63,6 +103,8 @@ fun launchInspector(
                     settings = settings,
                     onSettingsChanged = { settings = it },
                     onRendererChanged = onRendererChanged,
+                    showSpotlight = showSpotlight,
+                    onShowSpotlightChanged = { showSpotlight = it },
                 )
             }
         }
