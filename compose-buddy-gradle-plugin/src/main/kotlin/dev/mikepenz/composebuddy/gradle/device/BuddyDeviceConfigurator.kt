@@ -11,7 +11,7 @@ object BuddyDeviceConfigurator {
 
     // Version placeholder — composite builds substitute by coordinates regardless of version.
     // For published builds, this must match the published artifact version.
-    private const val VERSION = "0.2.0-a01"
+    private const val VERSION = "0.2.0-a02"
     private const val DEVICE_LIB = "dev.mikepenz.composebuddy:compose-buddy-device:$VERSION"
     private const val KSP_PROCESSOR = "dev.mikepenz.composebuddy:compose-buddy-device-ksp:$VERSION"
 
