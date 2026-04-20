@@ -12,12 +12,15 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
     implementation(compose.materialIconsExtended)
+    @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+    implementation(compose.uiTooling)
 
     // Nucleus — decorated window + dark mode
     implementation(libs.nucleus.decorated.window.core)
     implementation(libs.nucleus.decorated.window.jni)
     implementation(libs.nucleus.decorated.window.material3)
     implementation(libs.nucleus.darkmode.detector)
+    implementation(libs.nucleus.global.hotkey)
 
     // Image loading
     implementation(libs.coil.compose)
