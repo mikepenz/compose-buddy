@@ -2,6 +2,7 @@ package dev.mikepenz.composebuddy.gradle.device
 
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import dev.mikepenz.composebuddy.core.VERSION
 import dev.mikepenz.composebuddy.gradle.ComposeBuddyExtension
 import dev.mikepenz.composebuddy.gradle.device.tasks.BuddyPreviewDeployTask
 import dev.mikepenz.composebuddy.gradle.device.tasks.BuddyPreviewListTask
@@ -9,9 +10,6 @@ import org.gradle.api.Project
 
 object BuddyDeviceConfigurator {
 
-    // Version placeholder — composite builds substitute by coordinates regardless of version.
-    // For published builds, this must match the published artifact version.
-    private const val VERSION = "0.2.0-a02"
     private const val DEVICE_LIB = "dev.mikepenz.composebuddy:compose-buddy-device:$VERSION"
     private const val KSP_PROCESSOR = "dev.mikepenz.composebuddy:compose-buddy-device-ksp:$VERSION"
 

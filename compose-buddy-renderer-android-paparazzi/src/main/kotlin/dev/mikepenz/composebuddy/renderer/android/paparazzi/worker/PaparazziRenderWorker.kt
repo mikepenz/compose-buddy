@@ -13,7 +13,7 @@ import com.android.layoutlib.bridge.Bridge
 import com.android.resources.Density
 import dev.mikepenz.composebuddy.renderer.android.worker.ColorExtractor
 import dev.mikepenz.composebuddy.renderer.android.worker.HierarchyExtractor
-import dev.mikepenz.composebuddy.renderer.android.worker.SlotTreeWalker
+import dev.mikepenz.composebuddy.renderer.hierarchy.SlotTreeWalker
 import dev.mikepenz.composebuddy.renderer.worker.ComposableInvoker
 import dev.mikepenz.composebuddy.renderer.worker.WorkerProtocol
 import kotlinx.serialization.encodeToString

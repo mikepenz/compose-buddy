@@ -17,6 +17,9 @@ dependencies {
 
     // Compose Desktop — provides ImageComposeScene for headless rendering
     implementation(compose.desktop.currentOs)
+    // compose.uiTooling provides Inspectable + CompositionDataRecord + SlotTreeKt.asTree
+    @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+    implementation(compose.uiTooling)
 
     implementation(baseLibs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)

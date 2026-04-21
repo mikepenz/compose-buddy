@@ -2,11 +2,15 @@ package dev.mikepenz.composebuddy.inspector.ui
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
+import androidx.compose.ui.draw.clip
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -95,6 +99,7 @@ fun PreviewPane(
     onNodeHovered: (Int?) -> Unit,
     overlays: List<DesignOverlay>,
     modifier: Modifier = Modifier,
+    showGuides: Boolean = true,
 ) {
     if (frame == null) {
         Box(modifier = modifier.background(Color(0xFFF5F5F5)), contentAlignment = Alignment.Center) {
@@ -163,9 +168,25 @@ fun PreviewPane(
         return Offset(imgPx / dpScale, imgPy / dpScale)
     }
 
+    val tokens = InspectorTokens.current
+    val devicePresets = remember { dev.mikepenz.composebuddy.inspector.DEVICE_PRESETS }
+    val activePreset = devicePresets.firstOrNull { p ->
+        p.widthDp == renderResult.configuration.widthDp &&
+            p.heightDp == renderResult.configuration.heightDp
+    }
+    val deviceLabelText = when {
+        activePreset != null && activePreset.name != "Default" -> activePreset.name
+        renderResult.configuration.widthDp > 0 && renderResult.configuration.heightDp > 0 ->
+            "${renderResult.configuration.widthDp} × ${renderResult.configuration.heightDp}"
+        imageWidth > 0 && imageHeight > 0 -> "$imageWidth × $imageHeight"
+        else -> ""
+    }
+    val zoomPercentText = if (zoom > 0f) "${(zoom * 100).toInt()}%" else "Fit"
+
+    Box(modifier = modifier.background(tokens.bgCanvas)) {
     Box(
-        modifier = modifier
-            .background(Color(0xFFF5F5F5))
+        modifier = Modifier
+            .fillMaxSize()
             .clipToBounds()
             .onSizeChanged { canvasSize = it }
             // Scroll/pinch to zoom
@@ -234,12 +255,13 @@ fun PreviewPane(
 
                         if (selectedNode != null) {
                             drawNodeHighlight(selectedNode, Color(0xFF2196F3), zoom, dpScale, textMeasurer)
-                            // Draw distance to screen/root edges
-                            drawEdgeDistances(selectedNode, displayHierarchy!!, zoom, dpScale, textMeasurer)
+                            if (showGuides) {
+                                drawEdgeDistances(selectedNode, displayHierarchy!!, zoom, dpScale, textMeasurer)
+                            }
                         }
                         if (hoveredNode != null && hoveredNode.id != selectedNodeId) {
                             drawNodeHighlight(hoveredNode, Color(0xFFFF9800), zoom, dpScale, textMeasurer)
-                            if (selectedNode != null) {
+                            if (selectedNode != null && showGuides) {
                                 drawDistanceGuides(selectedNode, hoveredNode, zoom, dpScale, textMeasurer)
                             }
                         }
@@ -256,9 +278,144 @@ fun PreviewPane(
             }
         }
     }
+
+    // Top-left device label "1280 × 800 · 100%"
+    if (deviceLabelText.isNotBlank()) {
+        Row(
+            modifier = Modifier.align(Alignment.TopStart).padding(top = 14.dp, start = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp),
+        ) {
+            Text(
+                text = deviceLabelText,
+                color = tokens.fg3,
+                fontSize = 10.5.sp,
+                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
+            )
+            Text("·", color = tokens.fg4, fontSize = 10.5.sp)
+            Text(
+                text = zoomPercentText,
+                color = tokens.fg3,
+                fontSize = 10.5.sp,
+                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
+            )
+        }
+    }
+
+    // Top-right zoom controls "100% / Fit / 2×"
+    ZoomControls(
+        modifier = Modifier.align(Alignment.TopEnd).padding(top = 10.dp, end = 12.dp),
+        currentZoom = zoom,
+        canvasSize = canvasSize,
+        imageWidth = imageWidth,
+        imageHeight = imageHeight,
+        onZoom = { newZoom, recenter ->
+            zoom = newZoom
+            // Fit always re-centers; explicit zoom levels also reset pan so the user
+            // gets the predictable "click 100% → image is centered at 100%" behavior
+            // shown in the design's zoom controls.
+            if (recenter) panOffset = Offset.Zero
+        },
+    )
+    } // outer wrapping Box
+}
+
+@androidx.compose.runtime.Composable
+private fun ZoomControls(
+    modifier: Modifier,
+    currentZoom: Float,
+    canvasSize: IntSize,
+    imageWidth: Int,
+    imageHeight: Int,
+    onZoom: (zoom: Float, recenter: Boolean) -> Unit,
+) {
+    val tokens = InspectorTokens.current
+    val pillBg = tokens.bgPanel
+    val activeBg = tokens.bgPanelMuted
+
+    fun fitZoom(): Float {
+        if (canvasSize.width <= 0 || imageWidth <= 0) return 1f
+        val padding = 32f
+        val availW = canvasSize.width - padding * 2
+        val availH = canvasSize.height - padding * 2
+        return minOf(availW / imageWidth, availH / imageHeight).coerceIn(0.05f, 5f)
+    }
+
+    val isOneX = kotlin.math.abs(currentZoom - 1f) < 0.001f
+    val isFit = kotlin.math.abs(currentZoom - fitZoom()) < 0.001f
+    val isTwoX = kotlin.math.abs(currentZoom - 2f) < 0.001f
+
+    Row(
+        modifier = modifier
+            .clip(androidx.compose.foundation.shape.RoundedCornerShape(InspectorRadius.tab))
+            .background(pillBg)
+            .border(0.5.dp, tokens.line2, androidx.compose.foundation.shape.RoundedCornerShape(InspectorRadius.tab))
+            .padding(3.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        ZoomPill(label = "100%", active = isOneX, activeBg = activeBg) { onZoom(1f, true) }
+        ZoomPill(label = "Fit", active = isFit, activeBg = activeBg) { onZoom(fitZoom(), true) }
+        ZoomPill(label = "2×", active = isTwoX, activeBg = activeBg) { onZoom(2f, true) }
+    }
+}
+
+@androidx.compose.runtime.Composable
+private fun ZoomPill(
+    label: String,
+    active: Boolean,
+    activeBg: Color,
+    onClick: () -> Unit,
+) {
+    val tokens = InspectorTokens.current
+    Box(
+        modifier = Modifier
+            .clip(androidx.compose.foundation.shape.RoundedCornerShape(5.dp))
+            .background(if (active) activeBg else Color.Transparent)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+    ) {
+        Text(
+            text = label,
+            color = if (active) tokens.fg1 else tokens.fg2,
+            fontSize = 11.sp,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
+        )
+    }
 }
 
 private fun dpToImgPx(dp: Double, scale: Float): Float = (dp * scale).toFloat()
+
+/**
+ * Safely compute a font size in sp from a base / zoom ratio. Guards against
+ * non-finite zoom values (0, NaN, Infinity) which can produce NaN baselineShift
+ * values and crash Skia inside TextStyle.setBaselineShift.
+ */
+private fun safeLabelFontSizeSp(base: Float, zoom: Float): Float {
+    val z = if (zoom.isFinite() && zoom > 0.0001f) zoom else 1f
+    val size = base / z
+    return if (size.isFinite()) size.coerceIn(0.5f, 200f) else 9f
+}
+
+/**
+ * Safely measure and draw a text label. Swallows exceptions from Skia paragraph
+ * building (e.g. Check failed inside setBaselineShift) so a transient bad font
+ * size or glyph does not bring down the whole render thread.
+ */
+private inline fun DrawScope.safeDrawLabel(
+    textMeasurer: androidx.compose.ui.text.TextMeasurer,
+    text: String,
+    style: TextStyle,
+    position: (androidx.compose.ui.unit.IntSize) -> Offset,
+) {
+    try {
+        val tr = textMeasurer.measure(text, style)
+        drawText(tr, topLeft = position(tr.size))
+    } catch (_: Throwable) {
+        // Intentionally swallow: label rendering is purely decorative overlay.
+    }
+}
 
 private fun DrawScope.drawNodeHighlight(
     node: HierarchyNode, color: Color, currentZoom: Float, dpScale: Float,
@@ -277,12 +434,12 @@ private fun DrawScope.drawNodeHighlight(
     val heightDp = (b.bottom - b.top).toInt()
     if (widthDp > 0 && heightDp > 0) {
         val label = "${widthDp}x${heightDp}"
-        val labelStyle = TextStyle(fontSize = (9 / currentZoom).coerceAtLeast(0.5f).sp, color = color)
-        val tr = textMeasurer.measure(label, labelStyle)
-        // Position: bottom-right outside the rect, flip if near edge
-        val lx = left + w - tr.size.width
-        val ly = top + h + 2f / currentZoom
-        drawText(tr, topLeft = Offset(lx.coerceAtLeast(left), ly))
+        val labelStyle = TextStyle(fontSize = safeLabelFontSizeSp(9f, currentZoom).sp, color = color)
+        safeDrawLabel(textMeasurer, label, labelStyle) { size ->
+            val lx = left + w - size.width
+            val ly = top + h + 2f / currentZoom
+            Offset(lx.coerceAtLeast(left), ly)
+        }
     }
 }
 
@@ -313,9 +470,10 @@ private fun DrawScope.drawEdgeDistances(
         if (dpValue < 0.5) return
         drawLine(edgeColor, start, end, lw, pathEffect = dash)
         val label = "${"%.0f".format(dpValue)}"
-        val tr = textMeasurer.measure(label, TextStyle(fontSize = (8 / currentZoom).coerceAtLeast(0.5f).sp, color = edgeColor))
-        val mid = Offset((start.x + end.x) / 2 - tr.size.width / 2, (start.y + end.y) / 2 - tr.size.height / 2)
-        drawText(tr, topLeft = mid)
+        val style = TextStyle(fontSize = safeLabelFontSizeSp(8f, currentZoom).sp, color = edgeColor)
+        safeDrawLabel(textMeasurer, label, style) { size ->
+            Offset((start.x + end.x) / 2 - size.width / 2, (start.y + end.y) / 2 - size.height / 2)
+        }
     }
 
     // Left edge distance
@@ -359,8 +517,10 @@ private fun DrawScope.drawDistanceGuides(
         fun drawInset(start: Offset, end: Offset, dpVal: Double) {
             if (dpVal < 0.5) return
             drawLine(col, start, end, lw, pathEffect = dash)
-            val tr = textMeasurer.measure("${"%.0f".format(dpVal)}", TextStyle(fontSize = (9 / currentZoom).coerceAtLeast(0.5f).sp, color = col))
-            drawText(tr, topLeft = Offset((start.x + end.x) / 2 - tr.size.width / 2, (start.y + end.y) / 2 - tr.size.height / 2))
+            val style = TextStyle(fontSize = safeLabelFontSizeSp(9f, currentZoom).sp, color = col)
+            safeDrawLabel(textMeasurer, "${"%.0f".format(dpVal)}", style) { size ->
+                Offset((start.x + end.x) / 2 - size.width / 2, (start.y + end.y) / 2 - size.height / 2)
+            }
         }
 
         drawInset(Offset(oL, iMidY), Offset(iL, iMidY), inner.left - outer.left)
@@ -379,8 +539,10 @@ private fun DrawScope.drawDistanceGuides(
 
         if (abs(hGapDp) > 0.5) {
             drawLine(col, Offset(hS, midY), Offset(hE, midY), lw, pathEffect = dash)
-            val tr = textMeasurer.measure("${"%.0f".format(hGapDp)}dp", TextStyle(fontSize = (10 / currentZoom).coerceAtLeast(0.5f).sp, color = col))
-            drawText(tr, topLeft = Offset((hS + hE) / 2 - tr.size.width / 2, midY - tr.size.height))
+            val style = TextStyle(fontSize = safeLabelFontSizeSp(10f, currentZoom).sp, color = col)
+            safeDrawLabel(textMeasurer, "${"%.0f".format(hGapDp)}dp", style) { size ->
+                Offset((hS + hE) / 2 - size.width / 2, midY - size.height)
+            }
         }
 
         val vGapDp: Double; val vS: Float; val vE: Float
@@ -390,8 +552,10 @@ private fun DrawScope.drawDistanceGuides(
 
         if (abs(vGapDp) > 0.5) {
             drawLine(col, Offset(midX, vS), Offset(midX, vE), lw, pathEffect = dash)
-            val tr = textMeasurer.measure("${"%.0f".format(vGapDp)}dp", TextStyle(fontSize = (10 / currentZoom).coerceAtLeast(0.5f).sp, color = col))
-            drawText(tr, topLeft = Offset(midX + 4f / currentZoom, (vS + vE) / 2 - tr.size.height / 2))
+            val style = TextStyle(fontSize = safeLabelFontSizeSp(10f, currentZoom).sp, color = col)
+            safeDrawLabel(textMeasurer, "${"%.0f".format(vGapDp)}dp", style) { size ->
+                Offset(midX + 4f / currentZoom, (vS + vE) / 2 - size.height / 2)
+            }
         }
     }
 }

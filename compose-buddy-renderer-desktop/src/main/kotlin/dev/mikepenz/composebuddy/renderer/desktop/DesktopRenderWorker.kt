@@ -13,6 +13,8 @@ import dev.mikepenz.composebuddy.core.semantics.SemanticsKeyMapper
 import dev.mikepenz.composebuddy.core.model.boundsOf
 import dev.mikepenz.composebuddy.core.model.pxToDp
 import dev.mikepenz.composebuddy.core.model.sizeOf
+import dev.mikepenz.composebuddy.renderer.hierarchy.HierarchyMerger
+import dev.mikepenz.composebuddy.renderer.hierarchy.SlotTreeWalker
 import dev.mikepenz.composebuddy.renderer.worker.ComposableInvoker
 import dev.mikepenz.composebuddy.renderer.worker.WorkerProtocol
 import kotlinx.serialization.encodeToString
@@ -137,11 +139,20 @@ object DesktopRenderWorker {
                 else -> return errorResp(fqn, "Unexpected resolution", start, req.densityDpi)
             }
 
-            val composableLambda = wrapWithInspectionMode(innerLambda, fn2Class)
+            // Capture sub-composition CompositionData (e.g. from SubcomposeLayout inside
+            // Scaffold / LazyColumn) via LocalInspectionTables. Compose's runtime adds each
+            // child composition to this set when it starts composing.
+            val inspectionTables: MutableSet<Any> = java.util.Collections.synchronizedSet(java.util.LinkedHashSet())
+            val inspectionWrapped = wrapWithInspectionMode(innerLambda, fn2Class, inspectionTables)
+            // Tell the composer to collect parameter information, so SlotTreeKt.mapTree
+            // exposes names/params in SourceContext. Without this, sourceInformation()
+            // calls are no-ops and slot tree groups come through unnamed/paramless.
+            val composableLambda = wrapWithCollectParameterInformation(inspectionWrapped, fn2Class)
+
             val scene = ImageComposeScene(req.widthPx, req.heightPx, density)
             val setContentMethod = scene::class.java.methods.firstOrNull { it.name == "setContent" }
             if (setContentMethod != null) setContentMethod.invoke(scene, composableLambda)
-            renderScene(scene, req, fqn, start, densityValue)
+            renderScene(scene, req, fqn, start, densityValue, inspectionTables)
         } catch (e: Throwable) {
             var cause: Throwable = e
             while (cause is java.lang.reflect.InvocationTargetException ||
@@ -155,20 +166,41 @@ object DesktopRenderWorker {
 
     // --- Scene rendering ---
 
-    private fun renderScene(scene: ImageComposeScene, req: RenderRequest, fqn: String, start: Long, densityValue: Float): RenderResponse {
+    private fun renderScene(scene: ImageComposeScene, req: RenderRequest, fqn: String, start: Long, densityValue: Float, inspectionTables: MutableSet<Any>): RenderResponse {
         val skiaImage = scene.render()
 
-        var hierarchy: HierarchyNode? = null
+        // Slot tree extraction — gives typography/color params not in semantics.
+        // The root composition is reached via ImageComposeScene → BaseComposeScene →
+        // composition.slotTable. Sub-compositions (SubcomposeLayout inside Scaffold /
+        // LazyColumn / BoxWithConstraints) register themselves with LocalInspectionTables.
+        val compositionDataList = buildList {
+            extractCompositionDataFromScene(scene)?.let { add(it) }
+            addAll(inspectionTables)
+        }
+        val slotHierarchy: HierarchyNode? = try {
+            SlotTreeWalker.extractFromCompositionDataList(compositionDataList, req.densityDpi)
+        } catch (e: Exception) {
+            Logger.d { "Slot tree: ${e::class.simpleName}: ${e.message}" }
+            null
+        }
+
+        var semanticsHierarchy: HierarchyNode? = null
         try {
             val owners = scene::class.java.getMethod("getSemanticsOwners").invoke(scene)
             @Suppress("UNCHECKED_CAST")
             val ownerCollection = owners as? Collection<*>
             val firstOwner = ownerCollection?.firstOrNull()
             if (firstOwner != null) {
-                hierarchy = extractSemanticsHierarchy(firstOwner, req.densityDpi)
+                semanticsHierarchy = extractSemanticsHierarchy(firstOwner, req.densityDpi)
             }
         } catch (e: Exception) {
             Logger.d { "Semantics: ${e::class.simpleName}: ${e.message}" }
+        }
+
+        var hierarchy: HierarchyNode? = when {
+            slotHierarchy != null && semanticsHierarchy != null -> HierarchyMerger.merge(slotHierarchy, semanticsHierarchy)
+            slotHierarchy != null -> slotHierarchy
+            else -> semanticsHierarchy
         }
 
         if (hierarchy != null && req.sourceFile.isNotBlank()) {
@@ -207,66 +239,161 @@ object DesktopRenderWorker {
         )
     }
 
+    // --- Source-info capture wrapping ---
+
+    /**
+     * Wraps a composable lambda so that, on entry, it invokes
+     * `ComposerImpl.collectParameterInformation()` on the active composer. This enables
+     * recording of `sourceInformation` in the slot table (names + parameters), which
+     * SlotTreeKt.mapTree then exposes via SourceContext.
+     */
+    private fun wrapWithCollectParameterInformation(composableLambda: Any, fn2Class: Class<*>): Any {
+        return try {
+            val composerImplClass = try { Class.forName("androidx.compose.runtime.ComposerImpl") } catch (_: Exception) { null }
+            val collectMethod = composerImplClass?.methods?.firstOrNull { it.name == "collectParameterInformation" && it.parameterCount == 0 }
+            if (collectMethod == null) composableLambda
+            else java.lang.reflect.Proxy.newProxyInstance(
+                fn2Class.classLoader, arrayOf(fn2Class),
+            ) { _, m, args ->
+                if (m.name == "invoke" && args != null && args.size >= 2) {
+                    val composer = args[0]
+                    if (composer != null && composerImplClass.isInstance(composer)) {
+                        try { collectMethod.invoke(composer) } catch (_: Exception) {}
+                    }
+                    @Suppress("UNCHECKED_CAST")
+                    (composableLambda as kotlin.jvm.functions.Function2<Any?, Any?, Any?>)
+                        .invoke(args[0], args[1])
+                }
+                kotlin.Unit
+            }
+        } catch (_: Exception) { composableLambda }
+    }
+
     // --- Inspection mode wrapping ---
 
     /**
-     * Wraps a composable lambda with CompositionLocalProvider(LocalInspectionMode provides true).
-     * This causes composables to skip Android-only codepaths (BackHandler, LocalView access, etc.)
-     * which are unavailable in the desktop ImageComposeScene renderer.
+     * Wraps a composable lambda with CompositionLocalProvider(
+     *   LocalInspectionMode provides true,
+     *   LocalInspectionTables provides inspectionTables,
+     * ).
      *
-     * Returns the wrapped lambda, or the original if wrapping is not possible.
+     * LocalInspectionMode makes composables skip Android-only codepaths (BackHandler,
+     * LocalView access, etc.). LocalInspectionTables gives the Compose runtime a
+     * Set<CompositionData> to register every sub-composition into — critical for
+     * SubcomposeLayout-based components (Scaffold, LazyColumn, BoxWithConstraints),
+     * whose contents live in child compositions outside the root slot table.
      */
-    private fun wrapWithInspectionMode(composableLambda: Any, fn2Class: Class<*>): Any {
+    private fun wrapWithInspectionMode(composableLambda: Any, fn2Class: Class<*>, inspectionTables: MutableSet<Any>): Any {
         try {
             val compositionLocalClass = Class.forName("androidx.compose.runtime.ProvidableCompositionLocal")
             val providesMethod = compositionLocalClass.getMethod("provides", Any::class.java)
             val providedValueClass = Class.forName("androidx.compose.runtime.ProvidedValue")
             val composerClass = Class.forName("androidx.compose.runtime.Composer")
 
-            // Provide LocalInspectionMode = true so composables skip Android-only codepaths.
-            // Composables that access Android-specific locals (LocalView, LocalContext) without
-            // checking LocalInspectionMode will still fail — those require the android renderer.
             val inspectionModeClass = Class.forName("androidx.compose.ui.platform.InspectionModeKt")
-            val getLocal = inspectionModeClass.getDeclaredMethod("getLocalInspectionMode")
-            getLocal.isAccessible = true
-            val provided = providesMethod.invoke(getLocal.invoke(null), true)
+            val getInspectionMode = inspectionModeClass.getDeclaredMethod("getLocalInspectionMode")
+            getInspectionMode.isAccessible = true
+            val providedInspectionMode = providesMethod.invoke(getInspectionMode.invoke(null), true)
 
-            // Find single-value overload: (ProvidedValue, Function2, Composer, Int, ...)
+            val providedTables = try {
+                val cls = Class.forName("androidx.compose.runtime.tooling.InspectionTablesKt")
+                val get = cls.getDeclaredMethod("getLocalInspectionTables").apply { isAccessible = true }
+                providesMethod.invoke(get.invoke(null), inspectionTables)
+            } catch (_: Exception) { null }
+
             val providerClass = Class.forName("androidx.compose.runtime.CompositionLocalKt")
-            val providerMethod = providerClass.declaredMethods.firstOrNull { m ->
-                m.parameterTypes.size >= 4 &&
+            // Prefer the vararg overload so we can provide both locals in one go.
+            val varargProvider = providerClass.declaredMethods.firstOrNull { m ->
+                m.name.startsWith("CompositionLocalProvider") && m.parameterTypes.size >= 4 &&
+                    m.parameterTypes[0].isArray && m.parameterTypes[0].componentType == providedValueClass &&
+                    m.parameterTypes[1] == fn2Class && m.parameterTypes[2] == composerClass
+            }?.apply { isAccessible = true }
+            val singleProvider = providerClass.declaredMethods.firstOrNull { m ->
+                m.name.startsWith("CompositionLocalProvider") && m.parameterTypes.size >= 4 &&
                     m.parameterTypes[0] == providedValueClass &&
-                    m.parameterTypes[1] == fn2Class &&
-                    m.parameterTypes[2] == composerClass
-            } ?: return composableLambda
+                    m.parameterTypes[1] == fn2Class && m.parameterTypes[2] == composerClass
+            }?.apply { isAccessible = true }
 
-            providerMethod.isAccessible = true
-
-            return java.lang.reflect.Proxy.newProxyInstance(
-                fn2Class.classLoader, arrayOf(fn2Class),
-            ) { _, m, args ->
-                if (m.name == "invoke" && args != null && args.size >= 2) {
-                    val composer = args[0]
-                    val changed = args[1]
-                    val contentProxy = java.lang.reflect.Proxy.newProxyInstance(
-                        fn2Class.classLoader, arrayOf(fn2Class),
-                    ) { _, _, innerArgs ->
-                        if (innerArgs != null && innerArgs.size >= 2) {
-                            @Suppress("UNCHECKED_CAST")
-                            (composableLambda as kotlin.jvm.functions.Function2<Any?, Any?, Any?>)
-                                .invoke(innerArgs[0], innerArgs[1])
+            fun proxyFor(inner: Any, invokeProvider: (Any?, Any?, Any) -> Any?): Any =
+                java.lang.reflect.Proxy.newProxyInstance(fn2Class.classLoader, arrayOf(fn2Class)) { _, m, args ->
+                    if (m.name == "invoke" && args != null && args.size >= 2) {
+                        val composer = args[0]; val changed = args[1]
+                        val contentProxy = java.lang.reflect.Proxy.newProxyInstance(
+                            fn2Class.classLoader, arrayOf(fn2Class),
+                        ) { _, _, ia ->
+                            if (ia != null && ia.size >= 2) {
+                                @Suppress("UNCHECKED_CAST")
+                                (inner as kotlin.jvm.functions.Function2<Any?, Any?, Any?>).invoke(ia[0], ia[1])
+                            }
+                            kotlin.Unit
                         }
-                        kotlin.Unit
+                        invokeProvider(composer, changed, contentProxy)
                     }
-                    val invokeArgs = mutableListOf<Any?>(provided, contentProxy, composer, changed)
-                    repeat(providerMethod.parameterCount - 4) { invokeArgs.add(0) }
-                    providerMethod.invoke(null, *invokeArgs.toTypedArray())
+                    kotlin.Unit
                 }
-                kotlin.Unit
+
+            if (varargProvider != null && providedTables != null) {
+                val arr = java.lang.reflect.Array.newInstance(providedValueClass, 2).also {
+                    java.lang.reflect.Array.set(it, 0, providedInspectionMode)
+                    java.lang.reflect.Array.set(it, 1, providedTables)
+                }
+                return proxyFor(composableLambda) { composer, changed, contentProxy ->
+                    val args = mutableListOf<Any?>(arr, contentProxy, composer, changed)
+                    repeat(varargProvider.parameterCount - 4) { args.add(0) }
+                    varargProvider.invoke(null, *args.toTypedArray())
+                }
             }
+
+            if (singleProvider == null) return composableLambda
+            // Fallback: chain single-value providers (outer=tables, inner=inspectionMode → content).
+            val innerWrapped = proxyFor(composableLambda) { composer, changed, contentProxy ->
+                val args = mutableListOf<Any?>(providedInspectionMode, contentProxy, composer, changed)
+                repeat(singleProvider.parameterCount - 4) { args.add(0) }
+                singleProvider.invoke(null, *args.toTypedArray())
+            }
+            return if (providedTables != null) proxyFor(innerWrapped) { composer, changed, contentProxy ->
+                val args = mutableListOf<Any?>(providedTables, contentProxy, composer, changed)
+                repeat(singleProvider.parameterCount - 4) { args.add(0) }
+                singleProvider.invoke(null, *args.toTypedArray())
+            } else innerWrapped
         } catch (e: Exception) {
             Logger.d { "InspectionMode wrapping unavailable: ${e::class.simpleName}: ${e.message}" }
             return composableLambda
+        }
+    }
+
+    // --- CompositionData extraction ---
+
+    /**
+     * Reach into [ImageComposeScene] → BaseComposeScene.composition → CompositionImpl.slotTable
+     * to obtain a CompositionData suitable for SlotTreeKt.asTree().
+     */
+    private fun extractCompositionDataFromScene(scene: ImageComposeScene): Any? {
+        return try {
+            val sceneField = scene::class.java.getDeclaredField("scene")
+            sceneField.isAccessible = true
+            val innerScene = sceneField.get(scene) ?: return null
+
+            var clazz: Class<*>? = innerScene::class.java
+            var composition: Any? = null
+            while (clazz != null && composition == null) {
+                try {
+                    val f = clazz.getDeclaredField("composition")
+                    f.isAccessible = true
+                    composition = f.get(innerScene)
+                } catch (_: NoSuchFieldException) {}
+                clazz = clazz.superclass
+            }
+            if (composition == null) return null
+
+            composition::class.java.declaredMethods
+                .filter { it.name.startsWith("getSlotTable") }
+                .firstNotNullOfOrNull { m ->
+                    try { m.isAccessible = true; m.invoke(composition) } catch (_: Exception) { null }
+                }
+        } catch (e: Exception) {
+            Logger.d { "extractCompositionDataFromScene: ${e::class.simpleName}: ${e.message}" }
+            null
         }
     }
 

@@ -1,14 +1,26 @@
 package dev.mikepenz.composebuddy.inspector.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -23,8 +35,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.mikepenz.composebuddy.inspector.InspectorSession
 import dev.mikepenz.composebuddy.inspector.InspectorSettings
 import dev.mikepenz.composebuddy.inspector.RenderConfig
@@ -38,6 +54,8 @@ fun InspectorApp(
     settings: InspectorSettings,
     onSettingsChanged: (InspectorSettings) -> Unit,
     onRendererChanged: (dev.mikepenz.composebuddy.inspector.RendererType) -> Unit = {},
+    showSpotlight: Boolean = false,
+    onShowSpotlightChanged: (Boolean) -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
     var selectedNodeId by remember { mutableStateOf(session.selectedNodeId) }
@@ -46,7 +64,8 @@ fun InspectorApp(
     var frameVersion by remember { mutableIntStateOf(0) }
     var hoveredNodeId by remember { mutableStateOf<Int?>(null) }
     var showSettings by remember { mutableStateOf(false) }
-    var showSpotlight by remember { mutableStateOf(false) }
+    var showGuides by remember { mutableStateOf(true) }
+    val panelState = rememberPanelLayoutState()
 
     // Poll session for new frames from live device feeds
     androidx.compose.runtime.LaunchedEffect(Unit) {
@@ -110,7 +129,8 @@ fun InspectorApp(
         }
     }
 
-    Surface(modifier = Modifier.fillMaxSize()) {
+    val tokens = InspectorTokens.current
+    Surface(modifier = Modifier.fillMaxSize(), color = tokens.bgWindow) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.fillMaxSize()) {
                 Toolbar(
@@ -123,12 +143,34 @@ fun InspectorApp(
                     onRerendered = { refreshAfterRerender() },
                     showSettings = showSettings,
                     onToggleSettings = { showSettings = !showSettings },
-                    onOpenSpotlight = { showSpotlight = true },
+                    onOpenSpotlight = { onShowSpotlightChanged(true) },
+                    showGuides = showGuides,
+                    onToggleGuides = { showGuides = !showGuides },
+                    leftPanelVisible = panelState.leftUserVisible,
+                    onToggleLeftPanel = { panelState.leftUserVisible = !panelState.leftUserVisible },
+                    rightPanelVisible = panelState.rightUserVisible,
+                    onToggleRightPanel = { panelState.rightUserVisible = !panelState.rightUserVisible },
                 )
 
                 // Use key to force full recomposition when frame content changes
                 key(frameVersion, currentFrameIndex) {
-                Row(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                BoxWithConstraints(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                    val available = maxWidth
+                    val leftW = panelState.leftWidth
+                    val rightW = panelState.rightWidth
+                    // Auto-collapse: keep CenterMin. Drop right first, then left.
+                    val canShowLeft = panelState.leftUserVisible
+                    val canShowRight = panelState.rightUserVisible
+                    val needBoth = (if (canShowLeft) leftW else 0.dp) +
+                        (if (canShowRight) rightW else 0.dp) +
+                        PanelLayoutState.CenterMin
+                    val dropRight = needBoth > available && canShowRight
+                    val needAfterDrop = (if (canShowLeft) leftW else 0.dp) + PanelLayoutState.CenterMin
+                    val dropLeft = dropRight && needAfterDrop > available && canShowLeft
+                    val showLeft = canShowLeft && !dropLeft
+                    val showRight = canShowRight && !dropRight
+
+                    Row(modifier = Modifier.fillMaxSize()) {
                     val currentFrame = session.frames.getOrNull(currentFrameIndex)
                     val renderResult = currentFrame?.renderResult
 
@@ -143,22 +185,29 @@ fun InspectorApp(
                     }
 
                     // Left: Component tree
-                    ComponentTree(
-                        hierarchy = displayHierarchy,
-                        selectedNodeId = selectedNodeId,
-                        hoveredNodeId = hoveredNodeId,
-                        previewName = renderResult?.previewName,
-                        imageWidth = renderResult?.imageWidth ?: 0,
-                        imageHeight = renderResult?.imageHeight ?: 0,
-                        onNodeSelected = { nodeId ->
-                            selectedNodeId = nodeId
-                            session.selectedNodeId = nodeId
-                        },
-                        onNodeHovered = { nodeId -> hoveredNodeId = nodeId },
-                        modifier = Modifier.width(260.dp).fillMaxHeight(),
-                    )
+                    if (showLeft) {
+                        ComponentTree(
+                            hierarchy = displayHierarchy,
+                            selectedNodeId = selectedNodeId,
+                            hoveredNodeId = hoveredNodeId,
+                            previewName = renderResult?.previewName,
+                            imageWidth = renderResult?.imageWidth ?: 0,
+                            imageHeight = renderResult?.imageHeight ?: 0,
+                            onNodeSelected = { nodeId ->
+                                selectedNodeId = nodeId
+                                session.selectedNodeId = nodeId
+                            },
+                            onNodeHovered = { nodeId -> hoveredNodeId = nodeId },
+                            modifier = Modifier.width(panelState.leftWidth).fillMaxHeight(),
+                        )
 
-                    VerticalDivider()
+                        PanelDragHandle { delta ->
+                            panelState.leftWidth = (panelState.leftWidth + delta)
+                                .coerceIn(PanelLayoutState.LeftMin, PanelLayoutState.LeftMax)
+                        }
+                    } else {
+                        VerticalDivider()
+                    }
 
                     // Center: Preview pane
                     PreviewPane(
@@ -173,49 +222,61 @@ fun InspectorApp(
                         onNodeHovered = { nodeId -> hoveredNodeId = nodeId },
                         overlays = session.overlays,
                         modifier = Modifier.weight(1f).fillMaxHeight(),
+                        showGuides = showGuides,
                     )
 
-                    VerticalDivider()
+                    if (showRight) {
+                        PanelDragHandle { delta ->
+                            panelState.rightWidth = (panelState.rightWidth - delta)
+                                .coerceIn(PanelLayoutState.RightMin, PanelLayoutState.RightMax)
+                        }
 
-                    // Right: Properties panel
-                    PropertiesPanel(
-                        hierarchy = displayHierarchy,
-                        selectedNodeId = selectedNodeId,
-                        showRgbValues = settings.showRgbValues,
-                        modifier = Modifier.width(280.dp).fillMaxHeight(),
-                    )
-
-                    // Settings pane (toggled)
-                    if (showSettings) {
-                        VerticalDivider()
-                        SettingsPanel(
-                            settings = settings,
-                            onSettingsChanged = onSettingsChanged,
-                            onApplyRenderConfig = { config ->
-                                scope.launch {
-                                    withContext(Dispatchers.IO) {
-                                        session.rerenderWithNewConfig(config)
-                                    }
-                                    refreshAfterRerender()
-                                }
-                            },
-                            onRendererChanged = { type ->
-                                session.clearRenderCache()
-                                onRendererChanged(type)
-                                // Re-render current preview with new renderer
-                                val name = selectedPreviewName ?: return@SettingsPanel
-                                scope.launch {
-                                    withContext(Dispatchers.IO) {
-                                        session.triggerRerender()
-                                    }
-                                    session.currentFrame?.renderResult?.let { result ->
-                                        session.cacheResult(name, 0, result)
-                                    }
-                                    refreshAfterRerender()
-                                }
-                            },
-                            modifier = Modifier.width(240.dp).fillMaxHeight(),
+                        // Right: Tabbed Properties / Settings panel
+                        Column(modifier = Modifier.width(panelState.rightWidth).fillMaxHeight()) {
+                        RightPanelTabRow(
+                            showSettings = showSettings,
+                            onSelectProperties = { showSettings = false },
+                            onSelectSettings = { showSettings = true },
                         )
+                        HorizontalDivider()
+                        if (!showSettings) {
+                            PropertiesPanel(
+                                hierarchy = displayHierarchy,
+                                selectedNodeId = selectedNodeId,
+                                showRgbValues = settings.showRgbValues,
+                                modifier = Modifier.weight(1f).fillMaxWidth(),
+                            )
+                        } else {
+                            SettingsPanel(
+                                settings = settings,
+                                onSettingsChanged = onSettingsChanged,
+                                onApplyRenderConfig = { config ->
+                                    scope.launch {
+                                        withContext(Dispatchers.IO) {
+                                            session.rerenderWithNewConfig(config)
+                                        }
+                                        refreshAfterRerender()
+                                    }
+                                },
+                                onRendererChanged = { type ->
+                                    session.clearRenderCache()
+                                    onRendererChanged(type)
+                                    val name = selectedPreviewName ?: return@SettingsPanel
+                                    scope.launch {
+                                        withContext(Dispatchers.IO) {
+                                            session.triggerRerender()
+                                        }
+                                        session.currentFrame?.renderResult?.let { result ->
+                                            session.cacheResult(name, 0, result)
+                                        }
+                                        refreshAfterRerender()
+                                    }
+                                },
+                                modifier = Modifier.weight(1f).fillMaxWidth(),
+                            )
+                        }
+                        }
+                    }
                     }
                 }
                 } // key
@@ -240,7 +301,7 @@ fun InspectorApp(
                 onItemSelected = { name, _ ->
                     selectAndRender(name)
                 },
-                onDismiss = { showSpotlight = false },
+                onDismiss = { onShowSpotlightChanged(false) },
             )
 
             if (session.isRerendering) {
@@ -254,6 +315,81 @@ fun InspectorApp(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+internal fun RightPanelTabRow(
+    showSettings: Boolean,
+    onSelectProperties: () -> Unit,
+    onSelectSettings: () -> Unit,
+) {
+    val tokens = InspectorTokens.current
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(tokens.bgPanel)
+            .padding(horizontal = 8.dp)
+            .padding(top = 6.dp),
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(2.dp),
+    ) {
+        RightPanelTab(
+            label = "Properties",
+            icon = Icons.Default.Tune,
+            active = !showSettings,
+            onClick = onSelectProperties,
+        )
+        RightPanelTab(
+            label = "Settings",
+            icon = Icons.Default.Settings,
+            active = showSettings,
+            onClick = onSelectSettings,
+        )
+    }
+}
+
+@Composable
+private fun RightPanelTab(
+    label: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    active: Boolean,
+    onClick: () -> Unit,
+) {
+    val tokens = InspectorTokens.current
+    val color = if (active) tokens.fg1 else tokens.fg3
+    Box(
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .drawBehind {
+                if (active) {
+                    drawLine(
+                        color = tokens.accent,
+                        start = Offset(0f, size.height),
+                        end = Offset(size.width, size.height),
+                        strokeWidth = 2.dp.toPx(),
+                    )
+                }
+            }
+            .padding(horizontal = 10.dp, vertical = 7.dp),
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(6.dp),
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(12.dp),
+                tint = color,
+            )
+            Text(
+                text = label,
+                fontSize = InspectorType.toolbarText,
+                fontWeight = FontWeight.Medium,
+                color = color,
+            )
         }
     }
 }
