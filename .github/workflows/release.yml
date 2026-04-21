@@ -101,6 +101,7 @@ jobs:
         with:
           files: ${{ steps.package.outputs.zip }}
           tag_name: ${{ steps.package.outputs.version }}
+          prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-b') || contains(github.ref, '-a') }}
           body: ${{ steps.changelog.outputs.changelog }}
 
       - name: Update Homebrew Tap
