@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.DeploymentValidation
 import com.vanniktech.maven.publish.GradlePublishPlugin
 
 plugins {
@@ -81,4 +82,6 @@ tasks.withType<Test> {
 
 mavenPublishing {
     configure(GradlePublishPlugin())
+    publishToMavenCentral(automaticRelease = false, validateDeployment = DeploymentValidation.NONE)
+    signAllPublications()
 }
