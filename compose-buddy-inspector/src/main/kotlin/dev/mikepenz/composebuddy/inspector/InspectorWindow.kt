@@ -6,17 +6,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberWindowState
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.isCtrlPressed
 import androidx.compose.ui.input.key.isMetaPressed
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
 import dev.mikepenz.composebuddy.core.VERSION
 import dev.mikepenz.composebuddy.inspector.ui.InspectorApp
 import dev.mikepenz.composebuddy.inspector.ui.InspectorTheme
@@ -47,14 +47,6 @@ fun launchInspector(
         var settings by remember { mutableStateOf(InspectorSettings()) }
         var showSpotlight by remember { mutableStateOf(false) }
 
-        // ⌘K (macOS) / Ctrl+K (other) — Nucleus global hotkey, with an in-window
-        // Window.onKeyEvent fallback when the native subsystem isn't available.
-        val hotkey = remember { GlobalHotkeyController() }
-        androidx.compose.runtime.DisposableEffect(Unit) {
-            hotkey.tryRegister { showSpotlight = !showSpotlight }
-            onDispose { hotkey.shutdown() }
-        }
-
         val systemDark = io.github.kdroidfilter.nucleus.darkmodedetector.isSystemInDarkMode()
         val isDark = when (settings.themeMode) {
             ThemeMode.AUTO -> systemDark
@@ -81,8 +73,7 @@ fun launchInspector(
                 onCloseRequest = ::exitApplication,
                 title = "Compose Buddy Inspector v$VERSION",
                 state = windowState,
-                onKeyEvent = { e ->
-                    // In-window fallback: only fires when the inspector window is focused.
+                onPreviewKeyEvent = { e ->
                     if (e.type == KeyEventType.KeyDown && e.key == Key.K &&
                         (e.isMetaPressed || e.isCtrlPressed)
                     ) {
