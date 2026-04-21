@@ -20,7 +20,6 @@ dependencies {
     implementation(libs.nucleus.decorated.window.jni)
     implementation(libs.nucleus.decorated.window.material3)
     implementation(libs.nucleus.darkmode.detector)
-    implementation(libs.nucleus.global.hotkey)
 
     // Image loading
     implementation(libs.coil.compose)
