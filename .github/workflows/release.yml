@@ -103,15 +103,6 @@ jobs:
           tag_name: ${{ steps.package.outputs.version }}
           body: ${{ steps.changelog.outputs.changelog }}
 
-      - name: Dispatch Homebrew Tap update
-        uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3.0.0
-        with:
-          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
-          repository: mikepenz/homebrew-tap
-          event-type: update-compose-buddy
-          client-payload: |
-            {
-              "formula": "compose-buddy",
-              "version": "${{ steps.package.outputs.version }}",
-              "sha": "${{ steps.package.outputs.sha }}"
-            }
+      - name: Update Homebrew Tap
+        run: |
+          curl --retry 2 --connect-timeout 30 -X POST https://api.github.com/repos/mikepenz/homebrew-tap/dispatches -H 'Accept: applicatoin/vnd.github.everest-preview+json' -u ${{ secrets.TRIGGER_TOKEN }} --data '{"event_type": "update-compose-buddy", "client_payload": {"formula":"compose-buddy","version":"${{ steps.package.outputs.version }}","sha":"${{ steps.package.outputs.sha }}"}}'
