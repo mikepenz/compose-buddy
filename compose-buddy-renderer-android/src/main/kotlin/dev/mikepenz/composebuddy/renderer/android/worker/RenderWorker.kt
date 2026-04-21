@@ -19,6 +19,8 @@ import com.android.resources.ScreenSize
 import dev.mikepenz.composebuddy.renderer.android.bridge.MinimalLayoutlibCallback
 import dev.mikepenz.composebuddy.renderer.android.bridge.MinimalRenderResources
 import dev.mikepenz.composebuddy.renderer.android.bridge.SimpleLayoutPullParser
+import dev.mikepenz.composebuddy.renderer.hierarchy.HierarchyMerger
+import dev.mikepenz.composebuddy.renderer.hierarchy.SlotTreeWalker
 import dev.mikepenz.composebuddy.renderer.worker.ComposableInvoker
 import dev.mikepenz.composebuddy.renderer.worker.WorkerProtocol
 import kotlinx.serialization.encodeToString
@@ -590,7 +592,7 @@ object RenderWorker {
                     if (rootViewGroup != null) {
                         val semanticsHierarchy = HierarchyExtractor.extract(rootViewGroup, renderDensityDpi)
                         if (hierarchy != null && semanticsHierarchy != null) {
-                            hierarchy = mergeSemantics(hierarchy, semanticsHierarchy)
+                            hierarchy = HierarchyMerger.merge(hierarchy, semanticsHierarchy)
                         } else if (hierarchy == null) {
                             hierarchy = semanticsHierarchy
                         }
@@ -919,7 +921,7 @@ object RenderWorker {
                     if (rootVg != null) {
                         val semanticsHierarchy = HierarchyExtractor.extract(rootVg, renderDensityDpi)
                         if (hierarchy != null && semanticsHierarchy != null) {
-                            hierarchy = mergeSemantics(hierarchy, semanticsHierarchy)
+                            hierarchy = HierarchyMerger.merge(hierarchy, semanticsHierarchy)
                         } else if (hierarchy == null) {
                             hierarchy = semanticsHierarchy
                         }
@@ -1119,38 +1121,6 @@ object RenderWorker {
 
     private fun errorResp(fqn: String, err: String, start: Long) =
         RenderResponse(fqn, false, error = err, durationMs = System.currentTimeMillis() - start, densityDpi = renderDensityDpi)
-
-    private fun mergeSemantics(
-        slotNode: dev.mikepenz.composebuddy.core.model.HierarchyNode,
-        semanticsNode: dev.mikepenz.composebuddy.core.model.HierarchyNode,
-    ): dev.mikepenz.composebuddy.core.model.HierarchyNode {
-        val semanticsMap = mutableMapOf<String, Map<String, String>>()
-        fun collect(n: dev.mikepenz.composebuddy.core.model.HierarchyNode) {
-            val s = n.semantics
-            if (s != null && s.isNotEmpty()) {
-                val key = "${n.bounds.left},${n.bounds.top},${n.bounds.right},${n.bounds.bottom}"
-                semanticsMap[key] = (semanticsMap[key] ?: emptyMap()) + s
-            }
-            n.children.forEach { collect(it) }
-        }
-        collect(semanticsNode)
-
-        fun enrich(n: dev.mikepenz.composebuddy.core.model.HierarchyNode): dev.mikepenz.composebuddy.core.model.HierarchyNode {
-            val key = "${n.bounds.left},${n.bounds.top},${n.bounds.right},${n.bounds.bottom}"
-            val extra = semanticsMap[key]
-            val merged = if (extra != null) (n.semantics ?: emptyMap()) + extra else n.semantics
-            val name = if (n.name in listOf("Layout", "Element") && extra != null) {
-                when {
-                    extra["role"]?.contains("Button", true) == true -> "Button"
-                    extra.containsKey("text") && n.children.isEmpty() -> "Text"
-                    extra.containsKey("onClick") -> "Clickable"
-                    else -> n.name
-                }
-            } else n.name
-            return n.copy(name = name, semantics = merged, children = n.children.map { enrich(it) })
-        }
-        return enrich(slotNode)
-    }
 
     private fun detectNativeLibSubdir(): String {
         val os = System.getProperty("os.name").lowercase()
