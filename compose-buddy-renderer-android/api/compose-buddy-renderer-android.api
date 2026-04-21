@@ -1,0 +1,183 @@
+public final class dev/mikepenz/composebuddy/renderer/android/BridgeRenderer {
+	public fun <init> (Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;)V
+	public final fun dispose ()V
+	public final fun init ()Z
+	public final fun renderSession (Ldev/mikepenz/composebuddy/renderer/DeviceConfigMapper$LayoutlibConfig;)Ljava/awt/image/BufferedImage;
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/LayoutlibProvider {
+	public static final field Companion Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$Companion;
+	public static final field DEFAULT_LAYOUTLIB_VERSION Ljava/lang/String;
+	public fun <init> ()V
+	public fun <init> (Ljava/io/File;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/io/File;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun provide ()Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$Companion {
+	public final fun detectPlatformClassifier ()Ljava/lang/String;
+	public final fun getNativeLibSubdir ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths {
+	public fun <init> (Ljava/io/File;Ljava/io/File;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/io/File;
+	public final fun component2 ()Ljava/io/File;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/io/File;Ljava/io/File;Ljava/lang/String;)Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;Ljava/io/File;Ljava/io/File;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBuildProp ()Ljava/io/File;
+	public final fun getFontsDir ()Ljava/io/File;
+	public final fun getFrameworkResDir ()Ljava/io/File;
+	public final fun getHyphenData ()Ljava/io/File;
+	public final fun getIcuData ()Ljava/io/File;
+	public final fun getKeyboardData ()Ljava/io/File;
+	public final fun getNativeLibDir ()Ljava/io/File;
+	public final fun getPlatformClassifier ()Ljava/lang/String;
+	public final fun getResourcesRoot ()Ljava/io/File;
+	public final fun getRuntimeRoot ()Ljava/io/File;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/LayoutlibRenderer : dev/mikepenz/composebuddy/core/renderer/PreviewRenderer {
+	public fun <init> (Ljava/io/File;Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;Ljava/util/List;Ljava/util/List;IZ)V
+	public synthetic fun <init> (Ljava/io/File;Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;Ljava/util/List;Ljava/util/List;IZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun extractHierarchy (Ldev/mikepenz/composebuddy/core/model/Preview;Ldev/mikepenz/composebuddy/core/model/RenderConfiguration;)Ldev/mikepenz/composebuddy/core/model/HierarchyNode;
+	public fun render (Ldev/mikepenz/composebuddy/core/model/Preview;Ldev/mikepenz/composebuddy/core/model/RenderConfiguration;)Ldev/mikepenz/composebuddy/core/model/RenderResult;
+	public fun setup ()V
+	public fun teardown ()V
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/bridge/AndroidxRStubGenerator {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/renderer/android/bridge/AndroidxRStubGenerator;
+	public final fun ensureStubs ()V
+	public final fun generateRStub (Ljava/lang/String;Ljava/util/List;)V
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/bridge/MinimalLayoutlibCallback : com/android/ide/common/rendering/api/LayoutlibCallback {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/ClassLoader;)V
+	public synthetic fun <init> (Ljava/lang/ClassLoader;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun createXmlParser ()Lorg/xmlpull/v1/XmlPullParser;
+	public fun createXmlParserForFile (Ljava/lang/String;)Lorg/xmlpull/v1/XmlPullParser;
+	public fun createXmlParserForPsiFile (Ljava/lang/String;)Lorg/xmlpull/v1/XmlPullParser;
+	public fun findClass (Ljava/lang/String;)Ljava/lang/Class;
+	public fun getActionBarCallback ()Lcom/android/ide/common/rendering/api/ActionBarCallback;
+	public fun getAdapterBinding (Ljava/lang/Object;Ljava/util/Map;)Lcom/android/ide/common/rendering/api/AdapterBinding;
+	public fun getOrGenerateResourceId (Lcom/android/ide/common/rendering/api/ResourceReference;)I
+	public fun getParser (Lcom/android/ide/common/rendering/api/ResourceValue;)Lcom/android/ide/common/rendering/api/ILayoutPullParser;
+	public fun loadView (Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;
+	public fun resolveResourceId (I)Lcom/android/ide/common/rendering/api/ResourceReference;
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/bridge/MinimalRenderResources : com/android/ide/common/rendering/api/RenderResources {
+	public fun <init> ()V
+	public fun <init> (Ljava/io/File;)V
+	public synthetic fun <init> (Ljava/io/File;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun dereference (Lcom/android/ide/common/rendering/api/ResourceValue;)Lcom/android/ide/common/rendering/api/ResourceValue;
+	public fun findItemInTheme (Lcom/android/ide/common/rendering/api/ResourceReference;)Lcom/android/ide/common/rendering/api/ResourceValue;
+	public fun findResValue (Ljava/lang/String;Z)Lcom/android/ide/common/rendering/api/ResourceValue;
+	public fun getResolvedResource (Lcom/android/ide/common/rendering/api/ResourceReference;)Lcom/android/ide/common/rendering/api/ResourceValue;
+	public fun getUnresolvedResource (Lcom/android/ide/common/rendering/api/ResourceReference;)Lcom/android/ide/common/rendering/api/ResourceValue;
+	public final fun resolveByReference (Lcom/android/ide/common/rendering/api/ResourceReference;)Lcom/android/ide/common/rendering/api/ResourceValue;
+	public fun resolveResValue (Lcom/android/ide/common/rendering/api/ResourceValue;)Lcom/android/ide/common/rendering/api/ResourceValue;
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/bridge/SimpleLayoutPullParser : com/android/ide/common/rendering/api/ILayoutPullParser {
+	public fun <init> (Ljava/lang/String;)V
+	public fun defineEntityReplacementText (Ljava/lang/String;Ljava/lang/String;)V
+	public fun getAttributeCount ()I
+	public fun getAttributeName (I)Ljava/lang/String;
+	public fun getAttributeNamespace (I)Ljava/lang/String;
+	public fun getAttributePrefix (I)Ljava/lang/String;
+	public fun getAttributeType (I)Ljava/lang/String;
+	public fun getAttributeValue (I)Ljava/lang/String;
+	public fun getAttributeValue (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+	public fun getColumnNumber ()I
+	public fun getDepth ()I
+	public fun getEventType ()I
+	public fun getFeature (Ljava/lang/String;)Z
+	public fun getInputEncoding ()Ljava/lang/String;
+	public fun getLayoutNamespace ()Lcom/android/ide/common/rendering/api/ResourceNamespace;
+	public fun getLineNumber ()I
+	public fun getName ()Ljava/lang/String;
+	public fun getNamespace ()Ljava/lang/String;
+	public fun getNamespace (Ljava/lang/String;)Ljava/lang/String;
+	public fun getNamespaceCount (I)I
+	public fun getNamespacePrefix (I)Ljava/lang/String;
+	public fun getNamespaceUri (I)Ljava/lang/String;
+	public fun getPositionDescription ()Ljava/lang/String;
+	public fun getPrefix ()Ljava/lang/String;
+	public fun getProperty (Ljava/lang/String;)Ljava/lang/Object;
+	public fun getText ()Ljava/lang/String;
+	public fun getTextCharacters ([I)[C
+	public fun getViewCookie ()Ljava/lang/Object;
+	public fun isAttributeDefault (I)Z
+	public fun isEmptyElementTag ()Z
+	public fun isWhitespace ()Z
+	public fun next ()I
+	public fun nextTag ()I
+	public fun nextText ()Ljava/lang/String;
+	public fun nextToken ()I
+	public fun require (ILjava/lang/String;Ljava/lang/String;)V
+	public fun setFeature (Ljava/lang/String;Z)V
+	public fun setInput (Ljava/io/InputStream;Ljava/lang/String;)V
+	public fun setInput (Ljava/io/Reader;)V
+	public fun setProperty (Ljava/lang/String;Ljava/lang/Object;)V
+}
+
+public abstract class dev/mikepenz/composebuddy/renderer/android/worker/AbstractForkedRenderer : dev/mikepenz/composebuddy/renderer/worker/BaseForkedRenderer {
+	public fun <init> (Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;Ljava/util/List;Ljava/io/File;III)V
+	public synthetic fun <init> (Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;Ljava/util/List;Ljava/io/File;IIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	protected fun buildClasspath ()Ljava/util/List;
+	protected fun buildJvmArgs ()Ljava/util/List;
+	protected fun createInitRequest ()Ldev/mikepenz/composebuddy/renderer/worker/WorkerProtocol$RenderRequest;
+	protected fun createRenderRequest (Ldev/mikepenz/composebuddy/core/model/Preview;Ldev/mikepenz/composebuddy/core/model/RenderConfiguration;)Ldev/mikepenz/composebuddy/renderer/worker/WorkerProtocol$RenderRequest;
+	protected fun mapResultConfig (Ldev/mikepenz/composebuddy/core/model/RenderConfiguration;Ldev/mikepenz/composebuddy/renderer/worker/WorkerProtocol$RenderRequest;)Ldev/mikepenz/composebuddy/core/model/RenderConfiguration;
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/worker/ColorExtractor {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/renderer/android/worker/ColorExtractor;
+	public final fun enrich (Ldev/mikepenz/composebuddy/core/model/HierarchyNode;Ljava/awt/image/BufferedImage;I)Ldev/mikepenz/composebuddy/core/model/HierarchyNode;
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/worker/ForkedRenderer : dev/mikepenz/composebuddy/renderer/android/worker/AbstractForkedRenderer {
+	public fun <init> (Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;Ljava/util/List;Ljava/io/File;III)V
+	public synthetic fun <init> (Ldev/mikepenz/composebuddy/renderer/android/LayoutlibProvider$LayoutlibPaths;Ljava/util/List;Ljava/io/File;IIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/worker/HierarchyExtractor {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/renderer/android/worker/HierarchyExtractor;
+	public final fun extract (Landroid/view/ViewGroup;I)Ldev/mikepenz/composebuddy/core/model/HierarchyNode;
+	public final fun extractSemanticsMap (Landroid/view/ViewGroup;I)Ljava/util/Map;
+	public final fun getAllSeenSemantics ()Ljava/util/Set;
+	public final fun getDEFAULT_SEMANTICS ()Ljava/util/Set;
+	public final fun getIncludedSemantics ()Ljava/util/Set;
+	public final fun setIncludedSemantics (Ljava/util/Set;)V
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/worker/RenderWorker {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/renderer/android/worker/RenderWorker;
+	public static final fun main ([Ljava/lang/String;)V
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/worker/RenderWorker$SnapshotResult {
+	public fun <init> (Ljava/awt/image/BufferedImage;Ldev/mikepenz/composebuddy/core/model/HierarchyNode;)V
+	public final fun component1 ()Ljava/awt/image/BufferedImage;
+	public final fun component2 ()Ldev/mikepenz/composebuddy/core/model/HierarchyNode;
+	public final fun copy (Ljava/awt/image/BufferedImage;Ldev/mikepenz/composebuddy/core/model/HierarchyNode;)Ldev/mikepenz/composebuddy/renderer/android/worker/RenderWorker$SnapshotResult;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/renderer/android/worker/RenderWorker$SnapshotResult;Ljava/awt/image/BufferedImage;Ldev/mikepenz/composebuddy/core/model/HierarchyNode;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/renderer/android/worker/RenderWorker$SnapshotResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHierarchy ()Ldev/mikepenz/composebuddy/core/model/HierarchyNode;
+	public final fun getImage ()Ljava/awt/image/BufferedImage;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/renderer/android/worker/ViewOwnerHelper {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/renderer/android/worker/ViewOwnerHelper;
+	public final fun setupViewTreeOwners (Landroid/view/View;Landroid/view/ViewGroup;)Z
+}
+

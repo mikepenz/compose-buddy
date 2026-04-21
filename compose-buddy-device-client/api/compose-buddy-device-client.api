@@ -1,0 +1,413 @@
+public final class dev/mikepenz/composebuddy/client/BuddyWebSocketClient {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;II)V
+	public synthetic fun <init> (Ljava/lang/String;IIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun close ()V
+	public final fun frames ()Lkotlinx/coroutines/flow/Flow;
+	public final fun getConnected ()Lkotlinx/coroutines/flow/SharedFlow;
+	public final fun sendCommand (Ldev/mikepenz/composebuddy/client/model/BuddyCommand;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class dev/mikepenz/composebuddy/client/DevicePreviewSource : dev/mikepenz/composebuddy/inspector/RenderTrigger {
+	public fun <init> (Ldev/mikepenz/composebuddy/client/BuddyWebSocketClient;Ldev/mikepenz/composebuddy/inspector/InspectorFeed;I)V
+	public synthetic fun <init> (Ldev/mikepenz/composebuddy/client/BuddyWebSocketClient;Ldev/mikepenz/composebuddy/inspector/InspectorFeed;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun fetchPreviewList (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getPreviewList ()Lkotlinx/coroutines/flow/SharedFlow;
+	public fun navigate (Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun requestCapture (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun rerender (Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun start ()V
+	public final fun stop ()V
+}
+
+public final class dev/mikepenz/composebuddy/client/FrameMapper {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/FrameMapper;
+	public final fun mapSemanticNode (Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;I)Ldev/mikepenz/composebuddy/core/model/HierarchyNode;
+	public static synthetic fun mapSemanticNode$default (Ldev/mikepenz/composebuddy/client/FrameMapper;Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;IILjava/lang/Object;)Ldev/mikepenz/composebuddy/core/model/HierarchyNode;
+	public final fun toRenderResult (Ldev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame;I)Ldev/mikepenz/composebuddy/core/model/RenderResult;
+	public static synthetic fun toRenderResult$default (Ldev/mikepenz/composebuddy/client/FrameMapper;Ldev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame;IILjava/lang/Object;)Ldev/mikepenz/composebuddy/core/model/RenderResult;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyBounds {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddyBounds$Companion;
+	public fun <init> (DDDD)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun copy (DDDD)Ldev/mikepenz/composebuddy/client/model/BuddyBounds;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/client/model/BuddyBounds;DDDDILjava/lang/Object;)Ldev/mikepenz/composebuddy/client/model/BuddyBounds;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBottom ()D
+	public final fun getLeft ()D
+	public final fun getRight ()D
+	public final fun getTop ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/client/model/BuddyBounds$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddyBounds$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/client/model/BuddyBounds;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyBounds$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract class dev/mikepenz/composebuddy/client/model/BuddyCommand {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Companion;
+	public synthetic fun <init> (ILkotlinx/serialization/internal/SerializationConstructorMarker;)V
+	public static final synthetic fun write$Self (Ldev/mikepenz/composebuddy/client/model/BuddyCommand;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyCommand$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyCommand$Navigate : dev/mikepenz/composebuddy/client/model/BuddyCommand {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Navigate$Companion;
+	public fun <init> (Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;)Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Navigate;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Navigate;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Navigate;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPreview ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/client/model/BuddyCommand$Navigate$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Navigate$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Navigate;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Navigate;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyCommand$Navigate$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyCommand$RequestPreviewList : dev/mikepenz/composebuddy/client/model/BuddyCommand {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddyCommand$RequestPreviewList;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyCommand$Rerender : dev/mikepenz/composebuddy/client/model/BuddyCommand {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Rerender;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyCommand$SetConfig : dev/mikepenz/composebuddy/client/model/BuddyCommand {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddyCommand$SetConfig$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/Boolean;Ljava/lang/Float;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/Boolean;Ljava/lang/Float;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Boolean;
+	public final fun component2 ()Ljava/lang/Float;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/Boolean;Ljava/lang/Float;Ljava/lang/String;)Ldev/mikepenz/composebuddy/client/model/BuddyCommand$SetConfig;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/client/model/BuddyCommand$SetConfig;Ljava/lang/Boolean;Ljava/lang/Float;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/client/model/BuddyCommand$SetConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDarkMode ()Ljava/lang/Boolean;
+	public final fun getFontScale ()Ljava/lang/Float;
+	public final fun getLocale ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/client/model/BuddyCommand$SetConfig$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddyCommand$SetConfig$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/client/model/BuddyCommand$SetConfig;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/client/model/BuddyCommand$SetConfig;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyCommand$SetConfig$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyCommand$Tap : dev/mikepenz/composebuddy/client/model/BuddyCommand {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Tap$Companion;
+	public fun <init> (II)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun copy (II)Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Tap;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Tap;IIILjava/lang/Object;)Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Tap;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getX ()I
+	public final fun getY ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/client/model/BuddyCommand$Tap$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Tap$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Tap;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/client/model/BuddyCommand$Tap;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyCommand$Tap$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public abstract class dev/mikepenz/composebuddy/client/model/BuddyFrame {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddyFrame$Companion;
+	public synthetic fun <init> (ILkotlinx/serialization/internal/SerializationConstructorMarker;)V
+	public static final synthetic fun write$Self (Ldev/mikepenz/composebuddy/client/model/BuddyFrame;Lkotlinx/serialization/encoding/CompositeEncoder;Lkotlinx/serialization/descriptors/SerialDescriptor;)V
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyFrame$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyFrame$PreviewListFrame : dev/mikepenz/composebuddy/client/model/BuddyFrame {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddyFrame$PreviewListFrame$Companion;
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Ldev/mikepenz/composebuddy/client/model/BuddyFrame$PreviewListFrame;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/client/model/BuddyFrame$PreviewListFrame;Ljava/util/List;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/client/model/BuddyFrame$PreviewListFrame;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPreviews ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/client/model/BuddyFrame$PreviewListFrame$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddyFrame$PreviewListFrame$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/client/model/BuddyFrame$PreviewListFrame;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/client/model/BuddyFrame$PreviewListFrame;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyFrame$PreviewListFrame$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame : dev/mikepenz/composebuddy/client/model/BuddyFrame {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame$Companion;
+	public fun <init> (IJLjava/lang/String;Ljava/lang/String;Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;Ljava/util/List;Ljava/util/Map;Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;I)V
+	public synthetic fun <init> (IJLjava/lang/String;Ljava/lang/String;Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;Ljava/util/List;Ljava/util/Map;Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Ljava/util/Map;
+	public final fun component8 ()Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;
+	public final fun component9 ()I
+	public final fun copy (IJLjava/lang/String;Ljava/lang/String;Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;Ljava/util/List;Ljava/util/Map;Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;I)Ldev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame;IJLjava/lang/String;Ljava/lang/String;Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;Ljava/util/List;Ljava/util/Map;Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;IILjava/lang/Object;)Ldev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDensityDpi ()I
+	public final fun getFrameId ()I
+	public final fun getFrameTiming ()Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;
+	public final fun getImage ()Ljava/lang/String;
+	public final fun getPreview ()Ljava/lang/String;
+	public final fun getRecompositions ()Ljava/util/Map;
+	public final fun getSemantics ()Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;
+	public final fun getSlotTable ()Ljava/util/List;
+	public final fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyFrame$RenderFrame$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyFrameTiming {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming$Companion;
+	public fun <init> (JDDD)V
+	public final fun component1 ()J
+	public final fun component2 ()D
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun copy (JDDD)Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;JDDDILjava/lang/Object;)Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCompositionMs ()D
+	public final fun getDrawMs ()D
+	public final fun getLayoutMs ()D
+	public final fun getTotalMs ()D
+	public final fun getVsyncTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/client/model/BuddyFrameTiming$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/client/model/BuddyFrameTiming;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyFrameTiming$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyNodeColors {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBackground ()Ljava/lang/String;
+	public final fun getForeground ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/client/model/BuddyNodeColors$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddyNodeColors$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddySemanticNode {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode$Companion;
+	public fun <init> (ILjava/lang/String;Ljava/lang/String;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/util/List;Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;)V
+	public synthetic fun <init> (ILjava/lang/String;Ljava/lang/String;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/util/List;Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component10 ()Ljava/util/List;
+	public final fun component11 ()Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;
+	public final fun component12 ()Ljava/lang/String;
+	public final fun component13 ()Ljava/lang/Integer;
+	public final fun component14 ()Ljava/util/List;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ldev/mikepenz/composebuddy/client/model/BuddyBounds;
+	public final fun component5 ()Ldev/mikepenz/composebuddy/client/model/BuddyBounds;
+	public final fun component6 ()Ldev/mikepenz/composebuddy/client/model/BuddyBounds;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun component9 ()Ljava/util/Map;
+	public final fun copy (ILjava/lang/String;Ljava/lang/String;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/util/List;Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;)Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;ILjava/lang/String;Ljava/lang/String;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ldev/mikepenz/composebuddy/client/model/BuddyBounds;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;Ljava/util/List;Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;Ljava/lang/String;Ljava/lang/Integer;Ljava/util/List;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getActions ()Ljava/util/List;
+	public final fun getBounds ()Ldev/mikepenz/composebuddy/client/model/BuddyBounds;
+	public final fun getBoundsInParent ()Ldev/mikepenz/composebuddy/client/model/BuddyBounds;
+	public final fun getChildren ()Ljava/util/List;
+	public final fun getColors ()Ldev/mikepenz/composebuddy/client/model/BuddyNodeColors;
+	public final fun getContentDescription ()Ljava/lang/String;
+	public final fun getId ()I
+	public final fun getMergedSemantics ()Ljava/util/Map;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getOffsetFromParent ()Ldev/mikepenz/composebuddy/client/model/BuddyBounds;
+	public final fun getRole ()Ljava/lang/String;
+	public final fun getSourceFile ()Ljava/lang/String;
+	public final fun getSourceLine ()Ljava/lang/Integer;
+	public final fun getTestTag ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/client/model/BuddySemanticNode$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/client/model/BuddySemanticNode;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddySemanticNode$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddySlotEntry {
+	public static final field Companion Ldev/mikepenz/composebuddy/client/model/BuddySlotEntry$Companion;
+	public fun <init> (ILjava/lang/String;Ljava/lang/String;ILjava/util/List;)V
+	public final fun component1 ()I
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()I
+	public final fun component5 ()Ljava/util/List;
+	public final fun copy (ILjava/lang/String;Ljava/lang/String;ILjava/util/List;)Ldev/mikepenz/composebuddy/client/model/BuddySlotEntry;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/client/model/BuddySlotEntry;ILjava/lang/String;Ljava/lang/String;ILjava/util/List;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/client/model/BuddySlotEntry;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getChildren ()Ljava/util/List;
+	public final fun getDepth ()I
+	public final fun getKey ()I
+	public final fun getName ()Ljava/lang/String;
+	public final fun getSourceInfo ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/client/model/BuddySlotEntry$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/client/model/BuddySlotEntry$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/client/model/BuddySlotEntry;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/client/model/BuddySlotEntry;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/client/model/BuddySlotEntry$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+

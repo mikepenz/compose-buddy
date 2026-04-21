@@ -38,7 +38,7 @@ jobs:
         run: ./gradlew assemble --stacktrace
 
       - name: Run Tests
-        run: ./gradlew check --stacktrace
+        run: ./gradlew test apiCheck --stacktrace
 
       - name: Publish Test Report
         if: failure() || success()

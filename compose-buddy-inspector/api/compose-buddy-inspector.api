@@ -1,0 +1,1004 @@
+public final class dev/mikepenz/composebuddy/inspector/DevicePreset {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;III)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun copy (Ljava/lang/String;III)Ldev/mikepenz/composebuddy/inspector/DevicePreset;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/DevicePreset;Ljava/lang/String;IIIILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/DevicePreset;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDensityDpi ()I
+	public final fun getHeightDp ()I
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getWidthDp ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/GlobalHotkeyController {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun shutdown ()V
+	public final fun tryRegister (Lkotlin/jvm/functions/Function0;)Z
+}
+
+public final class dev/mikepenz/composebuddy/inspector/InspectorFeed {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun emit (Ldev/mikepenz/composebuddy/core/model/RenderResult;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getRenders ()Lkotlinx/coroutines/flow/SharedFlow;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/InspectorSession {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/RenderTrigger;ILdev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/RenderTrigger;ILdev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun addFrame (Ldev/mikepenz/composebuddy/core/model/RenderResult;Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/model/Frame;
+	public static synthetic fun addFrame$default (Ldev/mikepenz/composebuddy/inspector/InspectorSession;Ldev/mikepenz/composebuddy/core/model/RenderResult;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/Frame;
+	public final fun addOverlay (Ldev/mikepenz/composebuddy/inspector/model/DesignOverlay;)V
+	public final fun cacheResult (Ljava/lang/String;ILdev/mikepenz/composebuddy/core/model/RenderResult;)V
+	public final fun clearRenderCache ()V
+	public final fun getAnalysisProvider ()Ldev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider;
+	public final fun getAvailablePreviews ()Ljava/util/List;
+	public final fun getCachedResult (Ljava/lang/String;I)Ldev/mikepenz/composebuddy/core/model/RenderResult;
+	public final fun getComparedFrameIndex ()Ljava/lang/Integer;
+	public final fun getCurrentFrame ()Ldev/mikepenz/composebuddy/inspector/model/Frame;
+	public final fun getCurrentFrameIndex ()I
+	public final fun getFindings ()Ljava/util/List;
+	public final fun getFrames ()Ljava/util/List;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getLastRenderError ()Ljava/lang/String;
+	public final fun getMaxFrames ()I
+	public final fun getModulePath ()Ljava/lang/String;
+	public final fun getOverlays ()Ljava/util/List;
+	public final fun getPreviewDefs ()Ljava/util/List;
+	public final fun getProjectPath ()Ljava/lang/String;
+	public final fun getRenderTrigger ()Ldev/mikepenz/composebuddy/inspector/RenderTrigger;
+	public final fun getSelectedNodeId ()Ljava/lang/Integer;
+	public final fun getSelectedPreviewName ()Ljava/lang/String;
+	public final fun getSelectedVariantIndex ()I
+	public final fun isRerendering ()Z
+	public final fun navigateToFrame (I)V
+	public final fun removeOverlay (Ljava/lang/String;)V
+	public final fun rerenderWithNewConfig (Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun selectPreview (Ljava/lang/String;I)V
+	public static synthetic fun selectPreview$default (Ldev/mikepenz/composebuddy/inspector/InspectorSession;Ljava/lang/String;IILjava/lang/Object;)V
+	public final fun selectVariant (I)V
+	public final fun setAvailablePreviews (Ljava/util/List;)V
+	public final fun setComparedFrameIndex (Ljava/lang/Integer;)V
+	public final fun setFindings (Ljava/util/List;)V
+	public final fun setPreviewDefs (Ljava/util/List;)V
+	public final fun setSelectedNodeId (Ljava/lang/Integer;)V
+	public final fun triggerRerender (Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun triggerRerender$default (Ldev/mikepenz/composebuddy/inspector/InspectorSession;Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public final fun updateOverlay (Ldev/mikepenz/composebuddy/inspector/model/DesignOverlay;)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/InspectorSessionKt {
+	public static final fun createLazySession (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ldev/mikepenz/composebuddy/inspector/RenderTrigger;ILdev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider;)Ldev/mikepenz/composebuddy/inspector/InspectorSession;
+	public static synthetic fun createLazySession$default (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ldev/mikepenz/composebuddy/inspector/RenderTrigger;ILdev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/InspectorSession;
+	public static final fun createSession (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ldev/mikepenz/composebuddy/inspector/RenderTrigger;ILdev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider;)Ldev/mikepenz/composebuddy/inspector/InspectorSession;
+	public static synthetic fun createSession$default (Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ldev/mikepenz/composebuddy/inspector/RenderTrigger;ILdev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/InspectorSession;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/InspectorSettings {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Ldev/mikepenz/composebuddy/inspector/ThemeMode;Ldev/mikepenz/composebuddy/inspector/PreviewTheme;ZLdev/mikepenz/composebuddy/inspector/RenderConfig;ILdev/mikepenz/composebuddy/inspector/RendererType;)V
+	public synthetic fun <init> (Ldev/mikepenz/composebuddy/inspector/ThemeMode;Ldev/mikepenz/composebuddy/inspector/PreviewTheme;ZLdev/mikepenz/composebuddy/inspector/RenderConfig;ILdev/mikepenz/composebuddy/inspector/RendererType;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ldev/mikepenz/composebuddy/inspector/ThemeMode;
+	public final fun component2 ()Ldev/mikepenz/composebuddy/inspector/PreviewTheme;
+	public final fun component3 ()Z
+	public final fun component4 ()Ldev/mikepenz/composebuddy/inspector/RenderConfig;
+	public final fun component5 ()I
+	public final fun component6 ()Ldev/mikepenz/composebuddy/inspector/RendererType;
+	public final fun copy (Ldev/mikepenz/composebuddy/inspector/ThemeMode;Ldev/mikepenz/composebuddy/inspector/PreviewTheme;ZLdev/mikepenz/composebuddy/inspector/RenderConfig;ILdev/mikepenz/composebuddy/inspector/RendererType;)Ldev/mikepenz/composebuddy/inspector/InspectorSettings;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/InspectorSettings;Ldev/mikepenz/composebuddy/inspector/ThemeMode;Ldev/mikepenz/composebuddy/inspector/PreviewTheme;ZLdev/mikepenz/composebuddy/inspector/RenderConfig;ILdev/mikepenz/composebuddy/inspector/RendererType;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/InspectorSettings;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPreviewTheme ()Ldev/mikepenz/composebuddy/inspector/PreviewTheme;
+	public final fun getRenderConfig ()Ldev/mikepenz/composebuddy/inspector/RenderConfig;
+	public final fun getRendererType ()Ldev/mikepenz/composebuddy/inspector/RendererType;
+	public final fun getSelectedPresetIndex ()I
+	public final fun getShowRgbValues ()Z
+	public final fun getThemeMode ()Ldev/mikepenz/composebuddy/inspector/ThemeMode;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/InspectorSettingsKt {
+	public static final fun getDEVICE_PRESETS ()Ljava/util/List;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/InspectorWindowKt {
+	public static final fun launchInspector (Ldev/mikepenz/composebuddy/inspector/InspectorSession;Ldev/mikepenz/composebuddy/inspector/InspectorFeed;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun launchInspector$default (Ldev/mikepenz/composebuddy/inspector/InspectorSession;Ldev/mikepenz/composebuddy/inspector/InspectorFeed;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/PreviewTheme : java/lang/Enum {
+	public static final field DARK Ldev/mikepenz/composebuddy/inspector/PreviewTheme;
+	public static final field LIGHT Ldev/mikepenz/composebuddy/inspector/PreviewTheme;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/PreviewTheme;
+	public static fun values ()[Ldev/mikepenz/composebuddy/inspector/PreviewTheme;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/RenderConfig {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (IIII)V
+	public synthetic fun <init> (IIIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun copy (IIII)Ldev/mikepenz/composebuddy/inspector/RenderConfig;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/RenderConfig;IIIIILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/RenderConfig;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDensityDpi ()I
+	public final fun getHeightDp ()I
+	public final fun getUiMode ()I
+	public final fun getWidthDp ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/RenderException : java/lang/Exception {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getErrorMessage ()Ljava/lang/String;
+	public final fun getErrorStackTrace ()Ljava/lang/String;
+}
+
+public abstract interface class dev/mikepenz/composebuddy/inspector/RenderTrigger {
+	public fun navigate (Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun navigate$default (Ldev/mikepenz/composebuddy/inspector/RenderTrigger;Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public abstract fun rerender (Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun rerender$default (Ldev/mikepenz/composebuddy/inspector/RenderTrigger;Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/RenderTrigger$DefaultImpls {
+	public static fun navigate (Ldev/mikepenz/composebuddy/inspector/RenderTrigger;Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun navigate$default (Ldev/mikepenz/composebuddy/inspector/RenderTrigger;Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static synthetic fun rerender$default (Ldev/mikepenz/composebuddy/inspector/RenderTrigger;Ldev/mikepenz/composebuddy/inspector/RenderConfig;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/RendererType : java/lang/Enum {
+	public static final field ANDROID Ldev/mikepenz/composebuddy/inspector/RendererType;
+	public static final field AUTO Ldev/mikepenz/composebuddy/inspector/RendererType;
+	public static final field DESKTOP Ldev/mikepenz/composebuddy/inspector/RendererType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getLabel ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/RendererType;
+	public static fun values ()[Ldev/mikepenz/composebuddy/inspector/RendererType;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ThemeMode : java/lang/Enum {
+	public static final field AUTO Ldev/mikepenz/composebuddy/inspector/ThemeMode;
+	public static final field DARK Ldev/mikepenz/composebuddy/inspector/ThemeMode;
+	public static final field LIGHT Ldev/mikepenz/composebuddy/inspector/ThemeMode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/ThemeMode;
+	public static fun values ()[Ldev/mikepenz/composebuddy/inspector/ThemeMode;
+}
+
+public abstract interface class dev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider {
+	public abstract fun analyze (Ldev/mikepenz/composebuddy/core/model/HierarchyNode;Ljava/util/Map;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun analyze$default (Ldev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider;Ldev/mikepenz/composebuddy/core/model/HierarchyNode;Ljava/util/Map;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider$DefaultImpls {
+	public static synthetic fun analyze$default (Ldev/mikepenz/composebuddy/inspector/analysis/AnalysisProvider;Ldev/mikepenz/composebuddy/core/model/HierarchyNode;Ljava/util/Map;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/comparison/ImageDiff {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/comparison/ImageDiff;
+	public final fun computeDifference (Ljava/awt/image/BufferedImage;Ljava/awt/image/BufferedImage;)Ljava/awt/image/BufferedImage;
+	public final fun diffPercentage (Ljava/awt/image/BufferedImage;Ljava/awt/image/BufferedImage;I)D
+	public static synthetic fun diffPercentage$default (Ldev/mikepenz/composebuddy/inspector/comparison/ImageDiff;Ljava/awt/image/BufferedImage;Ljava/awt/image/BufferedImage;IILjava/lang/Object;)D
+	public final fun loadImage (Ljava/lang/String;)Ljava/awt/image/BufferedImage;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/comparison/RgbColor {
+	public static final field $stable I
+	public fun <init> (III)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun copy (III)Ldev/mikepenz/composebuddy/inspector/comparison/RgbColor;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/comparison/RgbColor;IIIILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/comparison/RgbColor;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getB ()I
+	public final fun getG ()I
+	public final fun getR ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/comparison/TokenComparator {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/comparison/TokenComparator;
+	public final fun compare (Ldev/mikepenz/composebuddy/core/model/HierarchyNode;Ldev/mikepenz/composebuddy/inspector/model/FigmaExport;)Ldev/mikepenz/composebuddy/inspector/model/ComparisonReport;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/AiFinding {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/AiFinding$Companion;
+	public fun <init> (Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/model/Severity;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/model/Severity;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ldev/mikepenz/composebuddy/inspector/model/Severity;
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/model/Severity;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/model/AiFinding;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/model/AiFinding;Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/model/Severity;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/AiFinding;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCategory ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getMessage ()Ljava/lang/String;
+	public final fun getNodeId ()I
+	public final fun getNodeName ()Ljava/lang/String;
+	public final fun getSeverity ()Ldev/mikepenz/composebuddy/inspector/model/Severity;
+	public final fun getSuggestion ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/inspector/model/AiFinding$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/model/AiFinding$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/inspector/model/AiFinding;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/inspector/model/AiFinding;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/AiFinding$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/ComparisonMode : java/lang/Enum {
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/ComparisonMode$Companion;
+	public static final field DIFFERENCE Ldev/mikepenz/composebuddy/inspector/model/ComparisonMode;
+	public static final field SIDE_BY_SIDE Ldev/mikepenz/composebuddy/inspector/model/ComparisonMode;
+	public static final field SLIDER Ldev/mikepenz/composebuddy/inspector/model/ComparisonMode;
+	public static final field TRANSPARENCY Ldev/mikepenz/composebuddy/inspector/model/ComparisonMode;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/model/ComparisonMode;
+	public static fun values ()[Ldev/mikepenz/composebuddy/inspector/model/ComparisonMode;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/ComparisonMode$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/ComparisonReport {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/ComparisonReport$Companion;
+	public fun <init> (JLjava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary;
+	public final fun copy (JLjava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary;)Ldev/mikepenz/composebuddy/inspector/model/ComparisonReport;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/model/ComparisonReport;JLjava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/ComparisonReport;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMatched ()Ljava/util/List;
+	public final fun getMismatched ()Ljava/util/List;
+	public final fun getMissingInCompose ()Ljava/util/List;
+	public final fun getMissingInFigma ()Ljava/util/List;
+	public final fun getSummary ()Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary;
+	public final fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/inspector/model/ComparisonReport$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/model/ComparisonReport$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/inspector/model/ComparisonReport;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/inspector/model/ComparisonReport;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/ComparisonReport$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/ComparisonSummary {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary$Companion;
+	public fun <init> (IIID)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun component4 ()D
+	public final fun copy (IIID)Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary;IIIDILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMatchCount ()I
+	public final fun getMatchPercentage ()D
+	public final fun getMismatchCount ()I
+	public final fun getTotalTokens ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/inspector/model/ComparisonSummary$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/inspector/model/ComparisonSummary;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/ComparisonSummary$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/DesignOverlay {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/DesignOverlay$Companion;
+	public fun <init> (Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/model/OverlayType;Ljava/lang/String;FFFFFLdev/mikepenz/composebuddy/inspector/model/ComparisonMode;)V
+	public synthetic fun <init> (Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/model/OverlayType;Ljava/lang/String;FFFFFLdev/mikepenz/composebuddy/inspector/model/ComparisonMode;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ldev/mikepenz/composebuddy/inspector/model/OverlayType;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()F
+	public final fun component5 ()F
+	public final fun component6 ()F
+	public final fun component7 ()F
+	public final fun component8 ()F
+	public final fun component9 ()Ldev/mikepenz/composebuddy/inspector/model/ComparisonMode;
+	public final fun copy (Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/model/OverlayType;Ljava/lang/String;FFFFFLdev/mikepenz/composebuddy/inspector/model/ComparisonMode;)Ldev/mikepenz/composebuddy/inspector/model/DesignOverlay;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/model/DesignOverlay;Ljava/lang/String;Ldev/mikepenz/composebuddy/inspector/model/OverlayType;Ljava/lang/String;FFFFFLdev/mikepenz/composebuddy/inspector/model/ComparisonMode;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/DesignOverlay;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getComparisonMode ()Ldev/mikepenz/composebuddy/inspector/model/ComparisonMode;
+	public final fun getFilePath ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getOffsetX ()F
+	public final fun getOffsetY ()F
+	public final fun getOpacity ()F
+	public final fun getRotation ()F
+	public final fun getScale ()F
+	public final fun getType ()Ldev/mikepenz/composebuddy/inspector/model/OverlayType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/inspector/model/DesignOverlay$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/model/DesignOverlay$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/inspector/model/DesignOverlay;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/inspector/model/DesignOverlay;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/DesignOverlay$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/FigmaComponent {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/FigmaComponent$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/Map;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/Map;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/util/Map;
+	public final fun component4 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/util/Map;Ljava/util/List;)Ldev/mikepenz/composebuddy/inspector/model/FigmaComponent;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/model/FigmaComponent;Ljava/lang/String;Ljava/util/List;Ljava/util/Map;Ljava/util/List;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/FigmaComponent;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAppliedTokens ()Ljava/util/Map;
+	public final fun getBounds ()Ljava/util/List;
+	public final fun getChildren ()Ljava/util/List;
+	public final fun getName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/inspector/model/FigmaComponent$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/model/FigmaComponent$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/inspector/model/FigmaComponent;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/inspector/model/FigmaComponent;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/FigmaComponent$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/FigmaExport {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/FigmaExport$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/util/Map;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Map;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/Map;
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/Map;Ljava/util/List;)Ldev/mikepenz/composebuddy/inspector/model/FigmaExport;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/model/FigmaExport;Ljava/lang/String;Ljava/util/Map;Ljava/util/List;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/FigmaExport;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getComponents ()Ljava/util/List;
+	public final fun getTokens ()Ljava/util/Map;
+	public final fun getVersion ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/inspector/model/FigmaExport$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/model/FigmaExport$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/inspector/model/FigmaExport;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/inspector/model/FigmaExport;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/FigmaExport$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/Frame {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/Frame$Companion;
+	public fun <init> (IJLdev/mikepenz/composebuddy/core/model/RenderResult;Ljava/lang/String;)V
+	public synthetic fun <init> (IJLdev/mikepenz/composebuddy/core/model/RenderResult;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()J
+	public final fun component3 ()Ldev/mikepenz/composebuddy/core/model/RenderResult;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (IJLdev/mikepenz/composebuddy/core/model/RenderResult;Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/model/Frame;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/model/Frame;IJLdev/mikepenz/composebuddy/core/model/RenderResult;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/Frame;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()I
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getRenderResult ()Ldev/mikepenz/composebuddy/core/model/RenderResult;
+	public final fun getTimestamp ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/inspector/model/Frame$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/model/Frame$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/inspector/model/Frame;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/inspector/model/Frame;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/Frame$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/OverlayType : java/lang/Enum {
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/OverlayType$Companion;
+	public static final field IMAGE Ldev/mikepenz/composebuddy/inspector/model/OverlayType;
+	public static final field SEMANTICS Ldev/mikepenz/composebuddy/inspector/model/OverlayType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/model/OverlayType;
+	public static fun values ()[Ldev/mikepenz/composebuddy/inspector/model/OverlayType;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/OverlayType$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/Severity : java/lang/Enum {
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/Severity$Companion;
+	public static final field ERROR Ldev/mikepenz/composebuddy/inspector/model/Severity;
+	public static final field INFO Ldev/mikepenz/composebuddy/inspector/model/Severity;
+	public static final field WARNING Ldev/mikepenz/composebuddy/inspector/model/Severity;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/model/Severity;
+	public static fun values ()[Ldev/mikepenz/composebuddy/inspector/model/Severity;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/Severity$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/TokenMatch {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/TokenMatch$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/model/TokenMatch;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/model/TokenMatch;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/TokenMatch;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getComponentName ()Ljava/lang/String;
+	public final fun getTokenName ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/inspector/model/TokenMatch$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/model/TokenMatch$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/inspector/model/TokenMatch;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/inspector/model/TokenMatch;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/TokenMatch$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/TokenMismatch {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/TokenMismatch$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Double;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Double;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/Double;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Double;Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/model/TokenMismatch;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/model/TokenMismatch;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Double;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/TokenMismatch;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getComponentName ()Ljava/lang/String;
+	public final fun getComposeValue ()Ljava/lang/String;
+	public final fun getDeltaE ()Ljava/lang/Double;
+	public final fun getFigmaValue ()Ljava/lang/String;
+	public final fun getTokenName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/inspector/model/TokenMismatch$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/model/TokenMismatch$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/inspector/model/TokenMismatch;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/inspector/model/TokenMismatch;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/TokenMismatch$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/TokenValue {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/model/TokenValue$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/model/TokenValue;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/model/TokenValue;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/model/TokenValue;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCategory ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class dev/mikepenz/composebuddy/inspector/model/TokenValue$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/model/TokenValue$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ldev/mikepenz/composebuddy/inspector/model/TokenValue;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Ldev/mikepenz/composebuddy/inspector/model/TokenValue;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/model/TokenValue$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/ComparisonReportViewKt {
+	public static final fun ComparisonReportView (Ldev/mikepenz/composebuddy/inspector/model/ComparisonReport;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/ComponentDistance {
+	public static final field $stable I
+	public fun <init> (DD)V
+	public final fun component1 ()D
+	public final fun component2 ()D
+	public final fun copy (DD)Ldev/mikepenz/composebuddy/inspector/ui/ComponentDistance;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/ui/ComponentDistance;DDILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/ui/ComponentDistance;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHorizontal ()D
+	public final fun getVertical ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/ComponentTreeKt {
+	public static final fun ComponentTree (Ldev/mikepenz/composebuddy/core/model/HierarchyNode;Ljava/lang/Integer;Ljava/lang/Integer;Ljava/lang/String;IILkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun createCanvasRoot (Ldev/mikepenz/composebuddy/core/model/HierarchyNode;IIII)Ldev/mikepenz/composebuddy/core/model/HierarchyNode;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$InspectorPreviewsKt {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$InspectorPreviewsKt;
+	public fun <init> ()V
+	public final fun getLambda$-110953846$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1162103712$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1176970874$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-133479051$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1605156525$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1852459560$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1894419389$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-337924420$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-443892553$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-885268881$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1216868362$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$147740419$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1647732285$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$181772476$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1999965301$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$2054884487$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$347396991$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$632564768$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$790374458$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$SettingsPanelKt {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$SettingsPanelKt;
+	public fun <init> ()V
+	public final fun getLambda$-1236958298$compose_buddy_inspector ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1001753808$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$2115517876$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$849747499$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$TimelineKt {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$TimelineKt;
+	public fun <init> ()V
+	public final fun getLambda$885077957$compose_buddy_inspector ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/GlyphKind : java/lang/Enum {
+	public static final field Element Ldev/mikepenz/composebuddy/inspector/ui/GlyphKind;
+	public static final field Layout Ldev/mikepenz/composebuddy/inspector/ui/GlyphKind;
+	public static final field Screen Ldev/mikepenz/composebuddy/inspector/ui/GlyphKind;
+	public static final field Text Ldev/mikepenz/composebuddy/inspector/ui/GlyphKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/ui/GlyphKind;
+	public static fun values ()[Ldev/mikepenz/composebuddy/inspector/ui/GlyphKind;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/InspectorAppKt {
+	public static final fun InspectorApp (Ldev/mikepenz/composebuddy/inspector/InspectorSession;Ldev/mikepenz/composebuddy/inspector/InspectorSettings;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;ZLkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/InspectorPalette {
+	public static final field $stable I
+	public synthetic fun <init> (JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-0d7_KjU ()J
+	public final fun component10-0d7_KjU ()J
+	public final fun component11-0d7_KjU ()J
+	public final fun component12-0d7_KjU ()J
+	public final fun component13-0d7_KjU ()J
+	public final fun component14-0d7_KjU ()J
+	public final fun component15-0d7_KjU ()J
+	public final fun component16-0d7_KjU ()J
+	public final fun component17-0d7_KjU ()J
+	public final fun component18-0d7_KjU ()J
+	public final fun component19-0d7_KjU ()J
+	public final fun component2-0d7_KjU ()J
+	public final fun component20-0d7_KjU ()J
+	public final fun component21-0d7_KjU ()J
+	public final fun component22-0d7_KjU ()J
+	public final fun component23-0d7_KjU ()J
+	public final fun component24-0d7_KjU ()J
+	public final fun component25-0d7_KjU ()J
+	public final fun component26-0d7_KjU ()J
+	public final fun component27-0d7_KjU ()J
+	public final fun component28-0d7_KjU ()J
+	public final fun component29-0d7_KjU ()J
+	public final fun component3-0d7_KjU ()J
+	public final fun component30-0d7_KjU ()J
+	public final fun component31-0d7_KjU ()J
+	public final fun component32-0d7_KjU ()J
+	public final fun component33-0d7_KjU ()J
+	public final fun component34-0d7_KjU ()J
+	public final fun component35-0d7_KjU ()J
+	public final fun component36-0d7_KjU ()J
+	public final fun component37 ()Z
+	public final fun component4-0d7_KjU ()J
+	public final fun component5-0d7_KjU ()J
+	public final fun component6-0d7_KjU ()J
+	public final fun component7-0d7_KjU ()J
+	public final fun component8-0d7_KjU ()J
+	public final fun component9-0d7_KjU ()J
+	public final fun copy-TPFQELM (JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJZ)Ldev/mikepenz/composebuddy/inspector/ui/InspectorPalette;
+	public static synthetic fun copy-TPFQELM$default (Ldev/mikepenz/composebuddy/inspector/ui/InspectorPalette;JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJZIILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/ui/InspectorPalette;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAccent-0d7_KjU ()J
+	public final fun getAccentFg-0d7_KjU ()J
+	public final fun getAccentSoft-0d7_KjU ()J
+	public final fun getBgActive-0d7_KjU ()J
+	public final fun getBgCanvas-0d7_KjU ()J
+	public final fun getBgChrome-0d7_KjU ()J
+	public final fun getBgDesktop-0d7_KjU ()J
+	public final fun getBgHover-0d7_KjU ()J
+	public final fun getBgPanel-0d7_KjU ()J
+	public final fun getBgPanelMuted-0d7_KjU ()J
+	public final fun getBgPreview-0d7_KjU ()J
+	public final fun getBgSelected-0d7_KjU ()J
+	public final fun getBgSelectedStrong-0d7_KjU ()J
+	public final fun getBgWindow-0d7_KjU ()J
+	public final fun getFg1-0d7_KjU ()J
+	public final fun getFg2-0d7_KjU ()J
+	public final fun getFg3-0d7_KjU ()J
+	public final fun getFg4-0d7_KjU ()J
+	public final fun getFgInverse-0d7_KjU ()J
+	public final fun getGlyphElement-0d7_KjU ()J
+	public final fun getGlyphElementBg-0d7_KjU ()J
+	public final fun getGlyphLayout-0d7_KjU ()J
+	public final fun getGlyphLayoutBg-0d7_KjU ()J
+	public final fun getGlyphScreen-0d7_KjU ()J
+	public final fun getGlyphScreenBg-0d7_KjU ()J
+	public final fun getGlyphText-0d7_KjU ()J
+	public final fun getGlyphTextBg-0d7_KjU ()J
+	public final fun getLine1-0d7_KjU ()J
+	public final fun getLine2-0d7_KjU ()J
+	public final fun getLine3-0d7_KjU ()J
+	public final fun getRuleLabel-0d7_KjU ()J
+	public final fun getRuleX-0d7_KjU ()J
+	public final fun getRuleY-0d7_KjU ()J
+	public final fun getSelFill-0d7_KjU ()J
+	public final fun getSelStroke-0d7_KjU ()J
+	public final fun getWarn-0d7_KjU ()J
+	public fun hashCode ()I
+	public final fun isDark ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/InspectorPrimitivesKt {
+	public static final fun KV (Ljava/lang/String;Ljava/lang/String;Landroidx/compose/ui/Modifier;ZLandroidx/compose/runtime/Composer;II)V
+	public static final fun KbdBadge (Ljava/lang/String;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun PanelHeader (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun Radio (ZLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun Section (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun SectionLabel (Ljava/lang/String;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun Segmented (Ljava/lang/Object;Ljava/util/List;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun Swatch-3J-VO9M (JLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun Toggle (ZLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun TypeGlyph (Ldev/mikepenz/composebuddy/inspector/ui/GlyphKind;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun glyphKindFor (Ljava/lang/String;)Ldev/mikepenz/composebuddy/inspector/ui/GlyphKind;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/InspectorRadius {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/ui/InspectorRadius;
+	public final fun getLg-D9Ej5fM ()F
+	public final fun getMd-D9Ej5fM ()F
+	public final fun getPillBadge-D9Ej5fM ()F
+	public final fun getSm-D9Ej5fM ()F
+	public final fun getTab-D9Ej5fM ()F
+	public final fun getWindow-D9Ej5fM ()F
+	public final fun getXs-D9Ej5fM ()F
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/InspectorSpacing {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/ui/InspectorSpacing;
+	public final fun getAddFrameTileWidth-D9Ej5fM ()F
+	public final fun getFrameTileHeight-D9Ej5fM ()F
+	public final fun getFrameTileWidth-D9Ej5fM ()F
+	public final fun getLeftPanelWidth-D9Ej5fM ()F
+	public final fun getRightPanelWidth-D9Ej5fM ()F
+	public final fun getTimelineHeight-D9Ej5fM ()F
+	public final fun getTitleBarHeight-D9Ej5fM ()F
+	public final fun getToolbarHeight-D9Ej5fM ()F
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/InspectorThemeKt {
+	public static final fun InspectorTheme (ZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/InspectorTokens {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/ui/InspectorTokens;
+	public final fun getCurrent (Landroidx/compose/runtime/Composer;I)Ldev/mikepenz/composebuddy/inspector/ui/InspectorPalette;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/InspectorType {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/ui/InspectorType;
+	public final fun getBadge-XSAIIZE ()J
+	public final fun getKvBody-XSAIIZE ()J
+	public final fun getKvBodySmall-XSAIIZE ()J
+	public final fun getPanelMeta-XSAIIZE ()J
+	public final fun getPanelTitle-XSAIIZE ()J
+	public final fun getSectionLabel-XSAIIZE ()J
+	public final fun getTimelineFrame-XSAIIZE ()J
+	public final fun getTimelineFrameMeta-XSAIIZE ()J
+	public final fun getTitleBar-XSAIIZE ()J
+	public final fun getToolbarText-XSAIIZE ()J
+	public final fun getTreeRow-XSAIIZE ()J
+	public final fun getTreeSize-XSAIIZE ()J
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/OverlayComparisonKt {
+	public static final fun OverlayComparison (Ldev/mikepenz/composebuddy/inspector/model/DesignOverlay;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/PanelDragHandleKt {
+	public static final fun PanelDragHandle (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/PanelLayoutState {
+	public static final field $stable I
+	public static final field Companion Ldev/mikepenz/composebuddy/inspector/ui/PanelLayoutState$Companion;
+	public synthetic fun <init> (FFZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (FFZZLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getLeftUserVisible ()Z
+	public final fun getLeftWidth-D9Ej5fM ()F
+	public final fun getRightUserVisible ()Z
+	public final fun getRightWidth-D9Ej5fM ()F
+	public final fun setLeftUserVisible (Z)V
+	public final fun setLeftWidth-0680j_4 (F)V
+	public final fun setRightUserVisible (Z)V
+	public final fun setRightWidth-0680j_4 (F)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/PanelLayoutState$Companion {
+	public final fun getCenterMin-D9Ej5fM ()F
+	public final fun getDefaultLeftWidth-D9Ej5fM ()F
+	public final fun getDefaultRightWidth-D9Ej5fM ()F
+	public final fun getLeftMax-D9Ej5fM ()F
+	public final fun getLeftMin-D9Ej5fM ()F
+	public final fun getRightMax-D9Ej5fM ()F
+	public final fun getRightMin-D9Ej5fM ()F
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/PanelLayoutStateKt {
+	public static final fun rememberPanelLayoutState (Landroidx/compose/runtime/Composer;I)Ldev/mikepenz/composebuddy/inspector/ui/PanelLayoutState;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/PreviewDefGroup {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/util/List;)Ldev/mikepenz/composebuddy/inspector/ui/PreviewDefGroup;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/ui/PreviewDefGroup;Ljava/lang/String;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/ui/PreviewDefGroup;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBaseName ()Ljava/lang/String;
+	public final fun getLabels ()Ljava/util/List;
+	public final fun getVariants ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/PreviewGroup {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/util/List;Ljava/util/List;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Ljava/lang/String;Ljava/util/List;Ljava/util/List;)Ldev/mikepenz/composebuddy/inspector/ui/PreviewGroup;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/ui/PreviewGroup;Ljava/lang/String;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/ui/PreviewGroup;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBaseName ()Ljava/lang/String;
+	public final fun getLabels ()Ljava/util/List;
+	public final fun getVariants ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/PreviewPaneKt {
+	public static final fun PreviewPane (Ldev/mikepenz/composebuddy/inspector/model/Frame;Ldev/mikepenz/composebuddy/core/model/HierarchyNode;Ljava/lang/Integer;Ljava/lang/Integer;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Ljava/util/List;Landroidx/compose/ui/Modifier;ZLandroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/PropertiesPanelKt {
+	public static final fun PropertiesPanel (Ldev/mikepenz/composebuddy/core/model/HierarchyNode;Ljava/lang/Integer;ZLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/SegmentedOption {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/Object;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;)V
+	public synthetic fun <init> (Ljava/lang/Object;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/Object;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Landroidx/compose/ui/graphics/vector/ImageVector;
+	public final fun copy (Ljava/lang/Object;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;)Ldev/mikepenz/composebuddy/inspector/ui/SegmentedOption;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/ui/SegmentedOption;Ljava/lang/Object;Ljava/lang/String;Landroidx/compose/ui/graphics/vector/ImageVector;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/ui/SegmentedOption;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIcon ()Landroidx/compose/ui/graphics/vector/ImageVector;
+	public final fun getLabel ()Ljava/lang/String;
+	public final fun getValue ()Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/SettingsPanelKt {
+	public static final fun SettingsPanel (Ldev/mikepenz/composebuddy/inspector/InspectorSettings;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/SpotlightItem {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Z
+	public final fun copy (Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Z)Ldev/mikepenz/composebuddy/inspector/ui/SpotlightItem;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/inspector/ui/SpotlightItem;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Ldev/mikepenz/composebuddy/inspector/ui/SpotlightItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHasError ()Z
+	public final fun getPackageName ()Ljava/lang/String;
+	public final fun getPreviewName ()Ljava/lang/String;
+	public final fun getShortName ()Ljava/lang/String;
+	public final fun getVariantIndex ()I
+	public final fun getVariantLabel ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/SpotlightSearchKt {
+	public static final fun SpotlightSearch (ZLjava/util/List;Ljava/lang/String;ILkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/TimelineKt {
+	public static final fun Timeline (Ljava/util/List;ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/ToolbarKt {
+	public static final fun Toolbar (Ldev/mikepenz/composebuddy/inspector/InspectorSession;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Ldev/mikepenz/composebuddy/inspector/InspectorSettings;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;III)V
+}
+
+public final class dev/mikepenz/composebuddy/inspector/ui/icons/RadixChevronDownKt {
+	public static final fun getRadixChevronDown ()Landroidx/compose/ui/graphics/vector/ImageVector;
+}
+
