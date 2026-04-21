@@ -90,12 +90,18 @@ jobs:
           echo "zip=${ZIP_NAME}" >> "$GITHUB_OUTPUT"
           echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
 
+      - name: Build Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@40a47be11b7cfb7cb21aa6387f78c10522a96c93 # v5.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
         with:
           files: ${{ steps.package.outputs.zip }}
           tag_name: ${{ steps.package.outputs.version }}
-          generate_release_notes: true
+          body: ${{ steps.changelog.outputs.changelog }}
 
       - name: Dispatch Homebrew Tap update
         uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # v3.0.0
