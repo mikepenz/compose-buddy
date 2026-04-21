@@ -92,7 +92,7 @@ jobs:
 
       - name: Build Changelog
         id: changelog
-        uses: mikepenz/release-changelog-builder-action@40a47be11b7cfb7cb21aa6387f78c10522a96c93 # v5.3.0
+        uses: mikepenz/release-changelog-builder-action@bcae7115752d4ed746ff92feb666574428a79415 # v6.2.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
