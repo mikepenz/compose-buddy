@@ -28,7 +28,8 @@ class RenderTriggerTest {
     )
 
     @Test
-    fun `triggerRerender on success appends frame`() = runBlocking {
+    fun `triggerRerender on success returns current frame without appending`() = runBlocking {
+        // Frames are appended by the feed collector (e.g. launchInspectorMode), not by triggerRerender itself.
         val trigger = object : RenderTrigger {
             override suspend fun rerender(config: RenderConfig?) = makeResult("rerendered")
         }
@@ -38,8 +39,8 @@ class RenderTriggerTest {
 
         val frame = session.triggerRerender()
         assertNotNull(frame)
-        assertEquals(2, session.frames.size)
-        assertEquals("rerendered", session.frames.last().renderResult.previewName)
+        assertEquals(1, session.frames.size)
+        assertEquals("initial", session.frames.last().renderResult.previewName)
         assertNull(session.lastRenderError)
     }
 

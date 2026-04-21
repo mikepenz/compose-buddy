@@ -1,0 +1,61 @@
+public abstract class dev/mikepenz/composebuddy/gradle/AnalyzePreviewsTask : org/gradle/api/DefaultTask {
+	public fun <init> ()V
+	public final fun analyze ()V
+	public abstract fun getOutputDir ()Lorg/gradle/api/file/DirectoryProperty;
+}
+
+public abstract class dev/mikepenz/composebuddy/gradle/ComposeBuddyExtension {
+	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
+	public final fun getDefaultDevice ()Lorg/gradle/api/provider/Property;
+	public final fun getDesignTokensFile ()Lorg/gradle/api/file/RegularFileProperty;
+	public final fun getDevicePort ()Lorg/gradle/api/provider/Property;
+	public final fun getDevicePreviewEnabled ()Lorg/gradle/api/provider/Property;
+	public final fun getMaxPreviewParameterValues ()Lorg/gradle/api/provider/Property;
+}
+
+public final class dev/mikepenz/composebuddy/gradle/ComposeBuddyPlugin : org/gradle/api/Plugin {
+	public fun <init> ()V
+	public synthetic fun apply (Ljava/lang/Object;)V
+	public fun apply (Lorg/gradle/api/Project;)V
+}
+
+public abstract class dev/mikepenz/composebuddy/gradle/InspectPreviewsTask : org/gradle/api/DefaultTask {
+	public fun <init> ()V
+	public abstract fun getOutputDir ()Lorg/gradle/api/file/DirectoryProperty;
+	public final fun inspect ()V
+}
+
+public abstract class dev/mikepenz/composebuddy/gradle/RenderPreviewsTask : org/gradle/api/DefaultTask {
+	public fun <init> ()V
+	public abstract fun getMaxPreviewParams ()Lorg/gradle/api/provider/Property;
+	public abstract fun getOutputDir ()Lorg/gradle/api/file/DirectoryProperty;
+	public final fun render ()V
+}
+
+public final class dev/mikepenz/composebuddy/gradle/device/BuddyDeviceConfigurator {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/gradle/device/BuddyDeviceConfigurator;
+	public final fun configure (Lorg/gradle/api/Project;Ldev/mikepenz/composebuddy/gradle/ComposeBuddyExtension;)V
+}
+
+public abstract class dev/mikepenz/composebuddy/gradle/device/tasks/BuddyPreviewDeployTask : org/gradle/api/DefaultTask {
+	public fun <init> ()V
+	public final fun deploy ()V
+	public abstract fun getApkDir ()Lorg/gradle/api/file/DirectoryProperty;
+	public abstract fun getDeviceSerial ()Lorg/gradle/api/provider/Property;
+	public abstract fun getPreviewFqn ()Lorg/gradle/api/provider/Property;
+	public abstract fun getWsPort ()Lorg/gradle/api/provider/Property;
+}
+
+public abstract class dev/mikepenz/composebuddy/gradle/device/tasks/BuddyPreviewListTask : org/gradle/api/DefaultTask {
+	public fun <init> ()V
+	public abstract fun getRegistrySourceFile ()Lorg/gradle/api/file/RegularFileProperty;
+	public final fun listPreviews ()V
+}
+
+public abstract class dev/mikepenz/composebuddy/gradle/tasks/ResolveClasspathTask : org/gradle/api/DefaultTask {
+	public fun <init> ()V
+	public abstract fun getOutputFile ()Lorg/gradle/api/file/RegularFileProperty;
+	public abstract fun getVariantName ()Lorg/gradle/api/provider/Property;
+	public final fun resolve ()V
+}
+

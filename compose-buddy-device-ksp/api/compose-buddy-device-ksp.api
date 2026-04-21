@@ -1,0 +1,91 @@
+public final class dev/mikepenz/composebuddy/ksp/BuddyPreviewProcessor : com/google/devtools/ksp/processing/SymbolProcessor {
+	public fun <init> (Lcom/google/devtools/ksp/processing/CodeGenerator;Lcom/google/devtools/ksp/processing/KSPLogger;)V
+	public fun finish ()V
+	public fun onError ()V
+	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
+}
+
+public final class dev/mikepenz/composebuddy/ksp/BuddyPreviewProcessorProvider : com/google/devtools/ksp/processing/SymbolProcessorProvider {
+	public fun <init> ()V
+	public fun create (Lcom/google/devtools/ksp/processing/SymbolProcessorEnvironment;)Lcom/google/devtools/ksp/processing/SymbolProcessor;
+}
+
+public final class dev/mikepenz/composebuddy/ksp/PreviewAnnotationScanner {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/ksp/PreviewAnnotationScanner;
+	public final fun scan (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
+}
+
+public final class dev/mikepenz/composebuddy/ksp/PreviewConfigInfo {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;FIZJI)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component10 ()I
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()F
+	public final fun component7 ()I
+	public final fun component8 ()Z
+	public final fun component9 ()J
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;FIZJI)Ldev/mikepenz/composebuddy/ksp/PreviewConfigInfo;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/ksp/PreviewConfigInfo;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;FIZJIILjava/lang/Object;)Ldev/mikepenz/composebuddy/ksp/PreviewConfigInfo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getApiLevel ()I
+	public final fun getBackgroundColor ()J
+	public final fun getFontScale ()F
+	public final fun getGroup ()Ljava/lang/String;
+	public final fun getHeightDp ()I
+	public final fun getLocale ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getShowBackground ()Z
+	public final fun getUiMode ()I
+	public final fun getWidthDp ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/ksp/PreviewInfo {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ldev/mikepenz/composebuddy/ksp/PreviewParameterInfo;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ldev/mikepenz/composebuddy/ksp/PreviewParameterInfo;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ldev/mikepenz/composebuddy/ksp/PreviewParameterInfo;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ldev/mikepenz/composebuddy/ksp/PreviewParameterInfo;)Ldev/mikepenz/composebuddy/ksp/PreviewInfo;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/ksp/PreviewInfo;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;Ldev/mikepenz/composebuddy/ksp/PreviewParameterInfo;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/ksp/PreviewInfo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getConfigs ()Ljava/util/List;
+	public final fun getContainingFile ()Ljava/lang/String;
+	public final fun getDisplayName ()Ljava/lang/String;
+	public final fun getFqn ()Ljava/lang/String;
+	public final fun getFunctionName ()Ljava/lang/String;
+	public final fun getPackageName ()Ljava/lang/String;
+	public final fun getPreviewParameter ()Ldev/mikepenz/composebuddy/ksp/PreviewParameterInfo;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/ksp/PreviewParameterInfo {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;Ljava/lang/String;)Ldev/mikepenz/composebuddy/ksp/PreviewParameterInfo;
+	public static synthetic fun copy$default (Ldev/mikepenz/composebuddy/ksp/PreviewParameterInfo;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Ldev/mikepenz/composebuddy/ksp/PreviewParameterInfo;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getParamName ()Ljava/lang/String;
+	public final fun getProviderFqn ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/mikepenz/composebuddy/ksp/RegistryGenerator {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/ksp/RegistryGenerator;
+	public final fun generate (Lcom/google/devtools/ksp/processing/CodeGenerator;Ljava/util/List;)V
+}
+
+public final class dev/mikepenz/composebuddy/ksp/WrapperGenerator {
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/ksp/WrapperGenerator;
+	public final fun generate (Lcom/google/devtools/ksp/processing/CodeGenerator;Ljava/util/List;)V
+}
+

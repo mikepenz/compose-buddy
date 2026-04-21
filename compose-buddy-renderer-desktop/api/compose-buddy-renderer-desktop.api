@@ -1,0 +1,28 @@
+public final class dev/mikepenz/composebuddy/renderer/desktop/ColorExtractor {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/renderer/desktop/ColorExtractor;
+	public final fun enrich (Ldev/mikepenz/composebuddy/core/model/HierarchyNode;Ljava/awt/image/BufferedImage;I)Ldev/mikepenz/composebuddy/core/model/HierarchyNode;
+}
+
+public final class dev/mikepenz/composebuddy/renderer/desktop/DesktopForkedRenderer : dev/mikepenz/composebuddy/renderer/worker/BaseForkedRenderer {
+	public static final field $stable I
+	public fun <init> (Ljava/util/List;Ljava/io/File;III)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/io/File;IIIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class dev/mikepenz/composebuddy/renderer/desktop/DesktopRenderWorker {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/mikepenz/composebuddy/renderer/desktop/DesktopRenderWorker;
+	public static final fun main ([Ljava/lang/String;)V
+}
+
+public final class dev/mikepenz/composebuddy/renderer/desktop/DesktopRenderer : dev/mikepenz/composebuddy/core/renderer/PreviewRenderer {
+	public static final field $stable I
+	public fun <init> (Ljava/io/File;Ljava/util/List;I)V
+	public synthetic fun <init> (Ljava/io/File;Ljava/util/List;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun extractHierarchy (Ldev/mikepenz/composebuddy/core/model/Preview;Ldev/mikepenz/composebuddy/core/model/RenderConfiguration;)Ldev/mikepenz/composebuddy/core/model/HierarchyNode;
+	public fun render (Ldev/mikepenz/composebuddy/core/model/Preview;Ldev/mikepenz/composebuddy/core/model/RenderConfiguration;)Ldev/mikepenz/composebuddy/core/model/RenderResult;
+	public fun setup ()V
+	public fun teardown ()V
+}
+
