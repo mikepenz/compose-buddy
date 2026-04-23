@@ -43,26 +43,49 @@ object BuddyDeviceConfigurator {
             // Check at afterEvaluate so users can set devicePreviewEnabled in their build script
             project.afterEvaluate {
                 if (!extension.devicePreviewEnabled.get()) return@afterEvaluate
-                configureAndroidApp(project)
+                configureAndroidApp(project, extension, android)
             }
         }
     }
 
-    private fun configureAndroidApp(project: Project) {
-        // Add runtime dependency for buddyDebug variant.
-        // buddyDebugImplementation is created by AGP during variant finalization and may not
-        // exist yet at this point; use whenObjectAdded as a fallback.
-        fun addDeviceLib() {
-            project.logger.lifecycle("compose-buddy: adding buddyDebugImplementation -> $DEVICE_LIB")
-            project.dependencies.add("buddyDebugImplementation", DEVICE_LIB)
-        }
-        if (project.configurations.findByName("buddyDebugImplementation") != null) {
-            addDeviceLib()
-        } else {
-            project.logger.lifecycle("compose-buddy: buddyDebugImplementation not found yet, registering whenObjectAdded")
-            project.configurations.whenObjectAdded { config ->
-                if (config.name == "buddyDebugImplementation") addDeviceLib()
+    private fun configureAndroidApp(
+        project: Project,
+        extension: ComposeBuddyExtension,
+        android: ApplicationExtension,
+    ) {
+        // Apply per-dimension flavor fallbacks declared in the extension.
+        val fallbacks = extension.deviceFlavorFallbacks.get()
+        if (fallbacks.isNotEmpty()) {
+            android.productFlavors.all { flavor ->
+                val dim = flavor.dimension ?: return@all
+                val fallback = fallbacks[dim] ?: return@all
+                if (flavor.name != fallback && fallback !in flavor.matchingFallbacks) {
+                    flavor.matchingFallbacks += fallback
+                    project.logger.lifecycle(
+                        "compose-buddy: flavor '${flavor.name}' (dim=$dim) matchingFallbacks += $fallback"
+                    )
+                }
             }
+        }
+
+        // Enumerate productFlavors to compute per-variant config names.
+        // If no flavors are declared, the single variant is "buddyDebug".
+        val flavorNames = android.productFlavors.map { it.name }
+        val variantNames: List<String> = if (flavorNames.isEmpty()) {
+            listOf("buddyDebug")
+        } else {
+            flavorNames.map { flavor -> "${flavor}BuddyDebug" }
+        }
+
+        for (variantName in variantNames) {
+            val cap = variantName.replaceFirstChar { it.uppercase() }
+            val implCfg = "${variantName}Implementation"
+            val kspCfg = "ksp$cap"
+            val kspProcCfg = "${kspCfg}KotlinProcessorClasspath"
+
+            addWhenAvailable(project, implCfg, DEVICE_LIB)
+            addWhenAvailable(project, kspCfg, KSP_PROCESSOR)
+            addWhenAvailable(project, kspProcCfg, KSP_PROCESSOR)
         }
 
         // Auto-apply KSP if on classpath, otherwise warn
@@ -75,47 +98,46 @@ object BuddyDeviceConfigurator {
             )
         }
 
-        // KSP creates kspBuddyDebug lazily via the variant API — it may not exist yet at
-        // afterEvaluate time. Use whenObjectAdded to register the processor whenever
-        // the configuration appears, and also try immediately in case it already exists.
-        // Also add directly to kspBuddyDebugKotlinProcessorClasspath (KSP's internal classpath
-        // that the task actually resolves) in case it doesn't inherit from kspBuddyDebug.
-        val kspConfigs = project.configurations.map { it.name }.filter { it.startsWith("ksp") }
-        project.logger.lifecycle("compose-buddy: ksp configs at afterEvaluate: $kspConfigs")
-
-        fun addKspProcessor(configName: String) {
-            project.logger.lifecycle("compose-buddy: adding $configName -> $KSP_PROCESSOR")
-            project.dependencies.add(configName, KSP_PROCESSOR)
-        }
-
-        for (configName in listOf("kspBuddyDebug", "kspBuddyDebugKotlinProcessorClasspath")) {
-            if (project.configurations.findByName(configName) != null) {
-                addKspProcessor(configName)
-            } else {
-                project.configurations.whenObjectAdded { config ->
-                    if (config.name == configName) addKspProcessor(configName)
-                }
-            }
-        }
-
-        registerTasks(project)
+        registerTasks(project, flavorNames)
     }
 
-    private fun registerTasks(project: Project) {
+    private fun addWhenAvailable(project: Project, configName: String, dependencyNotation: String) {
+        fun add() {
+            project.logger.lifecycle("compose-buddy: adding $configName -> $dependencyNotation")
+            project.dependencies.add(configName, dependencyNotation)
+        }
+        if (project.configurations.findByName(configName) != null) {
+            add()
+        } else {
+            project.configurations.whenObjectAdded { config ->
+                if (config.name == configName) add()
+            }
+        }
+    }
+
+    private fun registerTasks(project: Project, flavorNames: List<String>) {
         project.tasks.register("buddyPreviewDeploy", BuddyPreviewDeployTask::class.java) { task ->
             task.group = "compose buddy"
             task.description = "Build, install, and launch a @Preview on device via BuddyPreviewActivity"
+            // When flavors are present, the APK emits under build/outputs/apk/<flavor>/buddyDebug.
+            // This aggregate task points at the no-flavor path for backwards compatibility;
+            // the CLI resolves the correct per-flavor path at runtime.
             task.apkDir.set(project.layout.buildDirectory.dir("outputs/apk/buddyDebug"))
             task.dependsOn("assembleBuddyDebug")
         }
 
+        // buddyPreviewList is source-level (KSP) so a single aggregate task suffices.
+        // The KSP output lives under generated/ksp/<variant>/... — pick the first flavor's variant
+        // (or the unflavored one) as the source of truth.
+        val primaryVariant = if (flavorNames.isEmpty()) "buddyDebug" else "${flavorNames.first()}BuddyDebug"
+        val cap = primaryVariant.replaceFirstChar { it.uppercase() }
         project.tasks.register("buddyPreviewList", BuddyPreviewListTask::class.java) { task ->
             task.group = "compose buddy"
             task.description = "List all @Preview composables available in the buddyDebug variant as JSON"
-            task.dependsOn("kspBuddyDebugKotlin")
+            task.dependsOn("ksp${cap}Kotlin")
             task.registrySourceFile.set(
                 project.layout.buildDirectory.file(
-                    "generated/ksp/buddyDebug/kotlin/dev/mikepenz/composebuddy/device/BuddyPreviewRegistryImpl.kt"
+                    "generated/ksp/$primaryVariant/kotlin/dev/mikepenz/composebuddy/device/BuddyPreviewRegistryImpl.kt"
                 )
             )
         }

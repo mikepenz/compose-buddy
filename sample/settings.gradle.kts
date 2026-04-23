@@ -20,4 +20,5 @@ includeBuild("..")
 
 rootProject.name = "compose-buddy-sample"
 include(":app")
+include(":app-flavors")
 include(":desktop")

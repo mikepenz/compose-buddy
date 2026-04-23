@@ -44,6 +44,8 @@ class DeviceCommand : CliktCommand(name = "device") {
     private val skipBuild by option("--skip-build", help = "Skip Gradle build step").flag()
     private val skipInstall by option("--skip-install", help = "Skip APK installation step").flag()
     private val list by option("--list", help = "List available previews and exit").flag()
+    private val flavor by option("--flavor", help = "Product flavor name (required when the module declares flavors)")
+    private val variant by option("--variant", help = "Explicit variant name (overrides --flavor; e.g. 'devBuddyDebug')")
 
     override fun run() {
         // When no --module is provided this command acts as a parent for subcommands.
@@ -57,11 +59,19 @@ class DeviceCommand : CliktCommand(name = "device") {
             return
         }
 
+        // Resolve variant + APK directory. Precedence: --variant > --flavor > auto-detect.
+        val moduleDirName = mod.trimStart(':').replace(':', '/')
+        val moduleBuildDir = File(projectDir, "$moduleDirName/build")
+        val apkBaseDir = File(moduleBuildDir, "outputs/apk")
+
+        val (variantName, apkDir) = resolveVariantAndApkDir(apkBaseDir)
+        val assembleTask = "assemble${variantName.replaceFirstChar { it.uppercase() }}"
+
         // Step 1 – Build
         if (!skipBuild) {
-            echo("Building $mod...")
+            echo("Building $mod:$assembleTask...")
             val buildResult = ProcessRunner.runGradle(
-                projectDir, "$mod:assembleBuddyDebug",
+                projectDir, "$mod:$assembleTask",
                 streamOutput = true,
             )
             if (buildResult.exitCode != 0) {
@@ -71,8 +81,6 @@ class DeviceCommand : CliktCommand(name = "device") {
         }
 
         // Step 2 – Locate APK
-        val moduleDirName = mod.trimStart(':').replace(':', '/')
-        val apkDir = File(projectDir, "$moduleDirName/build/outputs/apk/buddyDebug")
         val apkFile = apkDir.listFiles { f -> f.extension == "apk" }?.firstOrNull()
             ?: run {
                 echo("APK not found in ${apkDir.absolutePath}", err = true)
@@ -176,6 +184,53 @@ class DeviceCommand : CliktCommand(name = "device") {
     }
 
     // ---- Preview listing -------------------------------------------------------
+
+    private fun resolveVariantAndApkDir(apkBaseDir: File): Pair<String, File> {
+        // Explicit --variant wins.
+        variant?.let { v ->
+            val dir = locateApkDirForVariant(apkBaseDir, v)
+                ?: error("APK directory not found for --variant '$v'. Expected under ${apkBaseDir.absolutePath}.")
+            return v to dir
+        }
+        // --flavor: compute <flavor>BuddyDebug.
+        flavor?.let { f ->
+            val v = "${f}BuddyDebug"
+            val dir = File(apkBaseDir, "$f/buddyDebug")
+            return v to dir
+        }
+        // Auto-detect.
+        val unflavored = File(apkBaseDir, "buddyDebug")
+        if (unflavored.isDirectory) return "buddyDebug" to unflavored
+
+        val flavorDirs = apkBaseDir.listFiles { f ->
+            f.isDirectory && File(f, "buddyDebug").isDirectory
+        }?.sortedBy { it.name } ?: emptyList()
+
+        when (flavorDirs.size) {
+            0 -> error(
+                "No buddyDebug output found under ${apkBaseDir.absolutePath}. " +
+                    "Run the build first or pass --flavor/--variant."
+            )
+            1 -> {
+                val f = flavorDirs.single().name
+                return "${f}BuddyDebug" to File(flavorDirs.single(), "buddyDebug")
+            }
+            else -> {
+                val names = flavorDirs.joinToString(", ") { it.name }
+                error("Multiple flavors detected ($names). Pass --flavor <name> or --variant <name>.")
+            }
+        }
+    }
+
+    private fun locateApkDirForVariant(apkBaseDir: File, variantName: String): File? {
+        if (variantName == "buddyDebug") {
+            return File(apkBaseDir, "buddyDebug").takeIf { it.isDirectory }
+        }
+        // Convention: <flavor>BuddyDebug — APK dir path is build/outputs/apk/<flavor>/buddyDebug
+        val flavor = variantName.removeSuffix("BuddyDebug").ifEmpty { return null }
+        val lowered = flavor.replaceFirstChar { it.lowercase() }
+        return File(apkBaseDir, "$lowered/buddyDebug").takeIf { it.isDirectory }
+    }
 
     private fun listPreviews(projectDir: File, mod: String) {
         val result = ProcessRunner.runGradle(projectDir, "$mod:buddyPreviewList", "--quiet")
