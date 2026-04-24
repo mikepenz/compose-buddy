@@ -8,6 +8,7 @@ public abstract class dev/mikepenz/composebuddy/gradle/ComposeBuddyExtension {
 	public fun <init> (Lorg/gradle/api/model/ObjectFactory;)V
 	public final fun getDefaultDevice ()Lorg/gradle/api/provider/Property;
 	public final fun getDesignTokensFile ()Lorg/gradle/api/file/RegularFileProperty;
+	public final fun getDeviceFlavorFallbacks ()Lorg/gradle/api/provider/MapProperty;
 	public final fun getDevicePort ()Lorg/gradle/api/provider/Property;
 	public final fun getDevicePreviewEnabled ()Lorg/gradle/api/provider/Property;
 	public final fun getMaxPreviewParameterValues ()Lorg/gradle/api/provider/Property;
