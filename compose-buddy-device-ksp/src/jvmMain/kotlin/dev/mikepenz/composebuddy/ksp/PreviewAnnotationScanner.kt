@@ -5,6 +5,7 @@ import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.google.devtools.ksp.symbol.ClassKind
+import com.google.devtools.ksp.symbol.Modifier
 
 private const val PREVIEW_ANNOTATION = "androidx.compose.ui.tooling.preview.Preview"
 private const val PREVIEW_PARAMETER_ANNOTATION = "androidx.compose.ui.tooling.preview.PreviewParameter"
@@ -36,6 +37,7 @@ data class PreviewInfo(
     val containingFile: String,
     val configs: List<PreviewConfigInfo>,
     val previewParameter: PreviewParameterInfo? = null,
+    val isPrivate: Boolean = false,
 ) {
     val fqn: String get() = "$packageName.${containingFile.removeSuffix(".kt")}Kt.$functionName"
     val displayName: String get() = configs.firstOrNull()?.name?.ifEmpty { functionName } ?: functionName
@@ -134,6 +136,7 @@ object PreviewAnnotationScanner {
             containingFile = fn.containingFile?.fileName ?: "",
             configs = configs,
             previewParameter = previewParam,
+            isPrivate = fn.modifiers.contains(Modifier.PRIVATE),
         )
     }
 }

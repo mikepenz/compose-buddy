@@ -2,6 +2,7 @@ package dev.mikepenz.composebuddy.gradle
 
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
@@ -15,4 +16,13 @@ abstract class ComposeBuddyExtension @Inject constructor(objects: ObjectFactory)
 
     /** Port used by the on-device preview server. */
     val devicePort: Property<Int> = objects.property(Int::class.java).convention(7890)
+
+    /**
+     * Per-flavor-dimension fallbacks applied to every productFlavor in that dimension.
+     * Example: `mapOf("env" to "dev")` makes every flavor in dimension `env`
+     * fall back to `dev`'s configuration when a dependency is missing a matching variant.
+     */
+    val deviceFlavorFallbacks: MapProperty<String, String> =
+        objects.mapProperty(String::class.java, String::class.java)
+            .convention(emptyMap())
 }
