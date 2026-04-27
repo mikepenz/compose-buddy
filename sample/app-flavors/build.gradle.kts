@@ -67,5 +67,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     // Flavor-scoped dependency — exercises per-flavor classpath wiring.
-    "prodImplementation"("androidx.annotation:annotation:1.9.1")
+    "prodImplementation"("androidx.annotation:annotation:1.10.0")
 }
