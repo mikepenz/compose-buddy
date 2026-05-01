@@ -13,7 +13,7 @@ kermit = "2.1.0"
 bytebuddy = "1.18.8"
 paparazzi = "2.0.0-alpha04"
 coil = "3.4.0"
-nucleus = "1.14.0"
+nucleus = "1.14.2"
 ksp = "2.3.6"
 activityCompose = "1.13.0"
 
