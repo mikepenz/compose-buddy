@@ -79,8 +79,6 @@ class BridgeRenderer(
 
         var session: com.android.ide.common.rendering.api.RenderSession? = null
         try {
-            Bridge.prepareThread()
-
             val hardwareConfig = HardwareConfig(
                 config.screenWidthPx, config.screenHeightPx,
                 com.android.resources.Density.create(config.densityDpi),
@@ -121,7 +119,6 @@ class BridgeRenderer(
             return null
         } finally {
             session?.dispose()
-            Bridge.cleanupThread()
         }
     }
 

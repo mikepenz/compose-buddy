@@ -185,7 +185,6 @@ object RenderWorker {
         val session = RenderSessionImpl(sessionParams)
         session.setElapsedFrameTimeNanos(0L)
 
-        try { Bridge.prepareThread() } catch (_: Exception) { /* already prepared */ }
         val initResult = session.init(sessionParams.timeout)
         Logger.i { "Session init: ${initResult.status}, error=${initResult.errorMessage}" }
 
@@ -245,7 +244,6 @@ object RenderWorker {
         try {
             renderSession?.release()
             bridgeRenderSession?.dispose()
-            Bridge.cleanupThread()
         } catch (e: Exception) {
             Logger.d { "Session teardown: ${e::class.simpleName}: ${e.message}" }
         }
@@ -440,7 +438,6 @@ object RenderWorker {
         val session = RenderSessionImpl(sessionParams)
         session.setElapsedFrameTimeNanos(0L)
 
-        try { Bridge.prepareThread() } catch (_: Exception) { /* already prepared */ }
         val initResult = session.init(sessionParams.timeout)
         Logger.i { "Adapter session init: ${initResult.status}, error=${initResult.errorMessage}" }
 
