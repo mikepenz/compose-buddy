@@ -120,33 +120,31 @@ class PreviewDiscovery {
                 ))
             }
 
-            // Multi-preview annotations — collapse into a single Preview per composable.
-            // Theme/config variants are controlled at render time via settings, not per-annotation.
-            // Only create a Preview if there wasn't already a direct @Preview for this method.
+            // Multi-preview annotations — emit one Preview per config variant.
+            // Only emit if there wasn't already a direct @Preview for this method.
             if (!method.hasDirectPreview) {
                 for (annotDesc in method.otherAnnotations) {
                     val previewConfigs = resolveMultiPreview(annotDesc, classReader)
                     if (previewConfigs.isNotEmpty()) {
-                        // Use the first config for defaults (size, background, etc.)
-                        // but ignore uiMode — that's controlled by the user.
-                        val config = previewConfigs.first()
-                        previews.add(Preview(
-                            fullyQualifiedName = "$className.${method.name}",
-                            fileName = fullSourcePath,
-                            lineNumber = method.lineNumber,
-                            name = config["name"] ?: "",
-                            widthDp = config["widthDp"]?.toIntOrNull() ?: -1,
-                            heightDp = config["heightDp"]?.toIntOrNull() ?: -1,
-                            locale = config["locale"] ?: "",
-                            fontScale = config["fontScale"]?.toFloatOrNull() ?: 1f,
-                            uiMode = 0, // Always default — theme controlled by settings
-                            device = config["device"] ?: "",
-                            showBackground = config["showBackground"] == "true" || config["showBackground"] == "1",
-                            backgroundColor = config["backgroundColor"]?.toLongOrNull() ?: 0L,
-                            showSystemUi = config["showSystemUi"] == "true" || config["showSystemUi"] == "1",
-                            apiLevel = config["apiLevel"]?.toIntOrNull() ?: -1,
-                        ))
-                        break // Only one Preview per method from multi-preview annotations
+                        for (config in previewConfigs) {
+                            previews.add(Preview(
+                                fullyQualifiedName = "$className.${method.name}",
+                                fileName = fullSourcePath,
+                                lineNumber = method.lineNumber,
+                                name = config["name"] ?: "",
+                                widthDp = config["widthDp"]?.toIntOrNull() ?: -1,
+                                heightDp = config["heightDp"]?.toIntOrNull() ?: -1,
+                                locale = config["locale"] ?: "",
+                                fontScale = config["fontScale"]?.toFloatOrNull() ?: 1f,
+                                uiMode = config["uiMode"]?.toIntOrNull() ?: 0,
+                                device = config["device"] ?: "",
+                                showBackground = config["showBackground"] == "true" || config["showBackground"] == "1",
+                                backgroundColor = config["backgroundColor"]?.toLongOrNull() ?: 0L,
+                                showSystemUi = config["showSystemUi"] == "true" || config["showSystemUi"] == "1",
+                                apiLevel = config["apiLevel"]?.toIntOrNull() ?: -1,
+                            ))
+                        }
+                        break // Only process the first matching multi-preview annotation per method
                     }
                 }
             }
