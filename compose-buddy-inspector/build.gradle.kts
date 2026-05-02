@@ -1,6 +1,6 @@
 plugins {
     alias(baseLibs.plugins.kotlinJvm)
-    alias(libs.plugins.kotlinSerialization)
+    alias(baseLibs.plugins.kotlinSerialization)
     alias(baseLibs.plugins.composeMultiplatform)
     alias(baseLibs.plugins.composeCompiler)
 }
@@ -28,7 +28,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kermit)
 
-    testImplementation(libs.kotlin.test)
+    testImplementation(kotlin("test"))
     testImplementation(libs.junit5)
 }
 

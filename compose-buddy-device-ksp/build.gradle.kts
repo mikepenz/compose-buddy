@@ -11,7 +11,7 @@ kotlin {
             implementation(libs.ksp.api)
         }
         jvmTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(kotlin("test"))
             implementation(libs.junit5)
             // kotlin-compile-testing-ksp 1.6.0 is incompatible with Kotlin 2.3.x
             // KSP processor is tested via unit tests on generator output

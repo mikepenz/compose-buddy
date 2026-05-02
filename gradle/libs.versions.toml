@@ -1,5 +1,4 @@
 [versions]
-kotlin = "2.3.21"
 kotlinx-serialization = "1.11.0"
 ktor = "3.4.2"
 clikt = "5.1.0"
@@ -18,7 +17,6 @@ ksp = "2.3.6"
 activityCompose = "1.13.0"
 
 [libraries]
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
@@ -56,5 +54,4 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 
 [plugins]
-kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

@@ -1,7 +1,7 @@
 plugins {
     id("com.mikepenz.convention.kotlin-multiplatform")
     id("com.mikepenz.convention.publishing")
-    alias(libs.plugins.kotlinSerialization)
+    alias(baseLibs.plugins.kotlinSerialization)
 }
 
 abstract class VersionTask : Sync() {
@@ -50,7 +50,7 @@ kotlin {
             api(libs.kermit)
         }
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(kotlin("test"))
         }
     }
 }

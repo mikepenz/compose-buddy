@@ -1,7 +1,7 @@
 plugins {
     id("com.mikepenz.convention.kotlin-multiplatform")
     id("com.mikepenz.convention.publishing")
-    alias(libs.plugins.kotlinSerialization)
+    alias(baseLibs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -15,7 +15,7 @@ kotlin {
             implementation(libs.kermit)
         }
         jvmTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation(kotlin("test"))
             implementation(libs.junit5)
         }
     }

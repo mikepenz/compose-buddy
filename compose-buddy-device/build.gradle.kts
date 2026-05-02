@@ -2,7 +2,7 @@ plugins {
     id("com.mikepenz.convention.android-library")
     id("com.mikepenz.convention.compose")
     id("com.mikepenz.convention.publishing")
-    alias(libs.plugins.kotlinSerialization)
+    alias(baseLibs.plugins.kotlinSerialization)
 }
 
 android {
@@ -21,7 +21,7 @@ dependencies {
     implementation(baseLibs.androidx.compose.ui.tooling)
     implementation(libs.activity.compose)
 
-    testImplementation(libs.kotlin.test)
+    testImplementation(kotlin("test"))
     testImplementation(libs.junit5)
 }
 

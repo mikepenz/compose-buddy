@@ -26,7 +26,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(baseLibs.kotlinx.coroutines.core)
 
-    testImplementation(libs.kotlin.test)
+    testImplementation(kotlin("test"))
     testImplementation(libs.junit5)
 }
 

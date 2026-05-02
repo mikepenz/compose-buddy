@@ -1,6 +1,6 @@
 plugins {
     alias(baseLibs.plugins.kotlinJvm)
-    alias(libs.plugins.kotlinSerialization)
+    alias(baseLibs.plugins.kotlinSerialization)
 }
 
 dependencies {
@@ -17,7 +17,7 @@ dependencies {
     implementation(baseLibs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
 
-    testImplementation(libs.kotlin.test)
+    testImplementation(kotlin("test"))
     testImplementation(libs.junit5)
 }
 

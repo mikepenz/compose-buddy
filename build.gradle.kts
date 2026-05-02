@@ -8,7 +8,7 @@ plugins {
     alias(baseLibs.plugins.androidLibrary) apply false
     alias(baseLibs.plugins.composeMultiplatform) apply false
     alias(baseLibs.plugins.composeCompiler) apply false
-    alias(libs.plugins.kotlinSerialization) apply false
+    alias(baseLibs.plugins.kotlinSerialization) apply false
 
     alias(baseLibs.plugins.mavenPublish) apply false
     alias(baseLibs.plugins.binaryCompatiblityValidator) apply false
