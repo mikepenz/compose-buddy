@@ -48,12 +48,15 @@ val copyWorkerJars by tasks.registering(Copy::class) {
     // Reference cross-project tasks by path to avoid configuration-order issues
     dependsOn(":compose-buddy-renderer-android:workerJar", ":compose-buddy-renderer-desktop:workerJar")
 
+    // Use the version from the project to pick only the current version's worker JAR,
+    // avoiding stale JARs from previous versions that may linger in the build/libs directory.
+    val projectVersion = version.toString()
     from(layout.projectDirectory.dir("..").file("compose-buddy-renderer-android/build/libs")) {
-        include("*-worker.jar")
+        include("*$projectVersion-worker.jar")
         rename { "worker-android.jar" }
     }
     from(layout.projectDirectory.dir("..").file("compose-buddy-renderer-desktop/build/libs")) {
-        include("*-worker.jar")
+        include("*$projectVersion-worker.jar")
         rename { "worker-desktop.jar" }
     }
     into(layout.buildDirectory.dir("resources/main/workers"))
