@@ -36,7 +36,7 @@ object RendererFactory {
     private fun createDesktop(classpath: List<File>, outputDir: File, density: Int?) =
         DesktopRenderer(
             outputDir = outputDir,
-            defaultDensityDpi = density ?: 160,
+            defaultDensityDpi = density ?: 480,
             projectClasspath = classpath,
         )
 

@@ -17,7 +17,7 @@ import java.io.File
 class DesktopRenderer(
     private val outputDir: File,
     private val projectClasspath: List<File> = emptyList(),
-    private val defaultDensityDpi: Int = 160,
+    private val defaultDensityDpi: Int = 480,
 ) : PreviewRenderer {
 
     private var initialized = false
