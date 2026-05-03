@@ -24,7 +24,7 @@ dependencies {
     compileOnly("com.android.tools.build:gradle:8.13.2")
 
     "functionalTestImplementation"(gradleTestKit())
-    "functionalTestImplementation"(libs.kotlin.test)
+    "functionalTestImplementation"(kotlin("test"))
     "functionalTestImplementation"(libs.junit5)
     "functionalTestRuntimeOnly"("org.junit.platform:junit-platform-launcher")
 }
