@@ -4,7 +4,7 @@ import com.vanniktech.maven.publish.GradlePublishPlugin
 plugins {
     alias(baseLibs.plugins.kotlinJvm)
     `java-gradle-plugin`
-    id("com.gradle.plugin-publish") version "1.3.1"
+    id("com.gradle.plugin-publish") version "2.1.1"
     alias(baseLibs.plugins.mavenPublish)
 }
 
