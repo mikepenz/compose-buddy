@@ -101,40 +101,50 @@ class PreviewDiscovery {
         for (method in methods) {
             // Direct @Preview
             if (method.hasDirectPreview) {
+                val params = method.directPreviewParams
                 previews.add(Preview(
                     fullyQualifiedName = "$className.${method.name}",
                     fileName = fullSourcePath,
                     lineNumber = method.lineNumber,
+                    name = params["name"] ?: "",
+                    widthDp = params["widthDp"]?.toIntOrNull() ?: -1,
+                    heightDp = params["heightDp"]?.toIntOrNull() ?: -1,
+                    locale = params["locale"] ?: "",
+                    fontScale = params["fontScale"]?.toFloatOrNull() ?: 1f,
+                    uiMode = params["uiMode"]?.toIntOrNull() ?: 0,
+                    device = params["device"] ?: "",
+                    showBackground = params["showBackground"] == "true" || params["showBackground"] == "1",
+                    backgroundColor = params["backgroundColor"]?.toLongOrNull() ?: 0L,
+                    showSystemUi = params["showSystemUi"] == "true" || params["showSystemUi"] == "1",
+                    apiLevel = params["apiLevel"]?.toIntOrNull() ?: -1,
                 ))
             }
 
-            // Multi-preview annotations — collapse into a single Preview per composable.
-            // Theme/config variants are controlled at render time via settings, not per-annotation.
-            // Only create a Preview if there wasn't already a direct @Preview for this method.
+            // Multi-preview annotations — emit one Preview per config variant.
+            // Only emit if there wasn't already a direct @Preview for this method.
             if (!method.hasDirectPreview) {
                 for (annotDesc in method.otherAnnotations) {
                     val previewConfigs = resolveMultiPreview(annotDesc, classReader)
                     if (previewConfigs.isNotEmpty()) {
-                        // Use the first config for defaults (size, background, etc.)
-                        // but ignore uiMode — that's controlled by the user.
-                        val config = previewConfigs.first()
-                        previews.add(Preview(
-                            fullyQualifiedName = "$className.${method.name}",
-                            fileName = fullSourcePath,
-                            lineNumber = method.lineNumber,
-                            name = config["name"] ?: "",
-                            widthDp = config["widthDp"]?.toIntOrNull() ?: -1,
-                            heightDp = config["heightDp"]?.toIntOrNull() ?: -1,
-                            locale = config["locale"] ?: "",
-                            fontScale = config["fontScale"]?.toFloatOrNull() ?: 1f,
-                            uiMode = 0, // Always default — theme controlled by settings
-                            device = config["device"] ?: "",
-                            showBackground = config["showBackground"] == "true" || config["showBackground"] == "1",
-                            backgroundColor = config["backgroundColor"]?.toLongOrNull() ?: 0L,
-                            showSystemUi = config["showSystemUi"] == "true" || config["showSystemUi"] == "1",
-                            apiLevel = config["apiLevel"]?.toIntOrNull() ?: -1,
-                        ))
-                        break // Only one Preview per method from multi-preview annotations
+                        for (config in previewConfigs) {
+                            previews.add(Preview(
+                                fullyQualifiedName = "$className.${method.name}",
+                                fileName = fullSourcePath,
+                                lineNumber = method.lineNumber,
+                                name = config["name"] ?: "",
+                                widthDp = config["widthDp"]?.toIntOrNull() ?: -1,
+                                heightDp = config["heightDp"]?.toIntOrNull() ?: -1,
+                                locale = config["locale"] ?: "",
+                                fontScale = config["fontScale"]?.toFloatOrNull() ?: 1f,
+                                uiMode = config["uiMode"]?.toIntOrNull() ?: 0,
+                                device = config["device"] ?: "",
+                                showBackground = config["showBackground"] == "true" || config["showBackground"] == "1",
+                                backgroundColor = config["backgroundColor"]?.toLongOrNull() ?: 0L,
+                                showSystemUi = config["showSystemUi"] == "true" || config["showSystemUi"] == "1",
+                                apiLevel = config["apiLevel"]?.toIntOrNull() ?: -1,
+                            ))
+                        }
+                        break // Only process the first matching multi-preview annotation per method
                     }
                 }
             }
@@ -309,6 +319,7 @@ class PreviewDiscovery {
         val lineNumber: Int,
         val hasDirectPreview: Boolean,
         val otherAnnotations: List<String>, // annotation descriptors
+        val directPreviewParams: Map<String, String> = emptyMap(),
     )
 
     private fun extractMethodsWithAnnotations(bytes: ByteArray, utf8s: Map<Int, String>): List<MethodWithAnnotations> {
@@ -350,6 +361,7 @@ class PreviewDiscovery {
             var hasPreview = false
             val otherAnnots = mutableListOf<String>()
             var lineNumber = -1
+            var directPreviewParams = mutableMapOf<String, String>()
 
             repeat(attrCount) {
                 if (pos + 6 > bytes.size) return results
@@ -367,6 +379,15 @@ class PreviewDiscovery {
                             val numPairs = readU2(bytes, scanPos); scanPos += 2
                             if (typeIdx == previewDescIdx) {
                                 hasPreview = true
+                                // Extract @Preview annotation parameters
+                                repeat(numPairs) {
+                                    if (scanPos + 3 > bytes.size) return@repeat
+                                    val pNameIdx = readU2(bytes, scanPos); scanPos += 2
+                                    val paramName = utf8s[pNameIdx] ?: ""
+                                    val (value, newPos) = readElementValue(bytes, scanPos, utf8s)
+                                    scanPos = newPos
+                                    if (paramName.isNotBlank() && value.isNotBlank()) directPreviewParams[paramName] = value
+                                }
                             } else {
                                 val desc = utf8s[typeIdx]
                                 if (desc != null && desc.startsWith("L") && desc.endsWith(";")
@@ -375,13 +396,13 @@ class PreviewDiscovery {
                                 ) {
                                     otherAnnots.add(desc)
                                 }
-                            }
-                            // Skip element-value pairs
-                            repeat(numPairs) {
-                                if (scanPos + 3 > bytes.size) return@repeat
-                                scanPos += 2
-                                val (_, np) = readElementValue(bytes, scanPos, utf8s)
-                                scanPos = np
+                                // Skip element-value pairs
+                                repeat(numPairs) {
+                                    if (scanPos + 3 > bytes.size) return@repeat
+                                    scanPos += 2
+                                    val (_, np) = readElementValue(bytes, scanPos, utf8s)
+                                    scanPos = np
+                                }
                             }
                         }
                     }
@@ -420,7 +441,7 @@ class PreviewDiscovery {
                     if (otherAnnots.isNotEmpty()) {
                         Logger.d { "Method $methodName has annotations: $otherAnnots" }
                     }
-                    results.add(MethodWithAnnotations(methodName, lineNumber, hasPreview, otherAnnots))
+                    results.add(MethodWithAnnotations(methodName, lineNumber, hasPreview, otherAnnots, directPreviewParams))
                 }
             }
         }

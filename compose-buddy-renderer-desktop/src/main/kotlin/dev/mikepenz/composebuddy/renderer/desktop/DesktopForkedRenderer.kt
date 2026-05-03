@@ -14,7 +14,7 @@ import java.io.File
 class DesktopForkedRenderer(
     projectClasspath: List<File>,
     outputDir: File,
-    defaultDensityDpi: Int = 160,
+    defaultDensityDpi: Int = 480,
     defaultWidthPx: Int = 1280,
     defaultHeightPx: Int = 800,
 ) : BaseForkedRenderer(projectClasspath, outputDir, defaultDensityDpi, defaultWidthPx, defaultHeightPx) {

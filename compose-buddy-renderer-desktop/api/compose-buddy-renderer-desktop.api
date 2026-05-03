@@ -1,3 +1,29 @@
+public final class android/util/Log {
+	public static final field ASSERT I
+	public static final field DEBUG I
+	public static final field ERROR I
+	public static final field INFO I
+	public static final field VERBOSE I
+	public static final field WARN I
+	public static fun d (Ljava/lang/String;Ljava/lang/String;)I
+	public static fun d (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+	public static fun e (Ljava/lang/String;Ljava/lang/String;)I
+	public static fun e (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+	public static fun getStackTraceString (Ljava/lang/Throwable;)Ljava/lang/String;
+	public static fun i (Ljava/lang/String;Ljava/lang/String;)I
+	public static fun i (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+	public static fun isLoggable (Ljava/lang/String;I)Z
+	public static fun println (ILjava/lang/String;Ljava/lang/String;)I
+	public static fun v (Ljava/lang/String;Ljava/lang/String;)I
+	public static fun v (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+	public static fun w (Ljava/lang/String;Ljava/lang/String;)I
+	public static fun w (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+	public static fun w (Ljava/lang/String;Ljava/lang/Throwable;)I
+	public static fun wtf (Ljava/lang/String;Ljava/lang/String;)I
+	public static fun wtf (Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I
+	public static fun wtf (Ljava/lang/String;Ljava/lang/Throwable;)I
+}
+
 public final class dev/mikepenz/composebuddy/renderer/desktop/ColorExtractor {
 	public static final field $stable I
 	public static final field INSTANCE Ldev/mikepenz/composebuddy/renderer/desktop/ColorExtractor;

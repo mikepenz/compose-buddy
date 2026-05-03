@@ -60,4 +60,30 @@ val workerJar by tasks.registering(Jar::class) {
         exclude("**/module-info.class")
         exclude("META-INF/maven/**", "META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
     }
+
+    // Include Skiko native runtimes for all platforms so the worker JAR runs cross-platform
+    // (e.g. built on macOS, deployed to Linux, and vice versa).
+    // Resolve the Skiko version from the current runtimeClasspath to avoid hard-coding it.
+    from(provider {
+        val skikoVersion = configurations.getByName("runtimeClasspath")
+            .resolvedConfiguration.resolvedArtifacts
+            .firstOrNull { it.moduleVersion.id.group == "org.jetbrains.skiko" && it.name.startsWith("skiko-awt-runtime") }
+            ?.moduleVersion?.id?.version
+            ?: return@provider emptyList<Any>()
+
+        val allPlatforms = configurations.detachedConfiguration(
+            dependencies.create("org.jetbrains.skiko:skiko-awt-runtime-linux-arm64:$skikoVersion"),
+            dependencies.create("org.jetbrains.skiko:skiko-awt-runtime-linux-x64:$skikoVersion"),
+            dependencies.create("org.jetbrains.skiko:skiko-awt-runtime-windows-x64:$skikoVersion"),
+            dependencies.create("org.jetbrains.skiko:skiko-awt-runtime-macos-arm64:$skikoVersion"),
+            dependencies.create("org.jetbrains.skiko:skiko-awt-runtime-macos-x64:$skikoVersion"),
+        ).apply {
+            isTransitive = false
+        }
+        allPlatforms.files.map { jar ->
+            zipTree(jar).matching {
+                include("libskiko-*.so", "libskiko-*.so.sha256", "libskiko-*.dylib", "libskiko-*.dylib.sha256", "skiko-*.dll", "skiko-*.dll.sha256")
+            }
+        }
+    })
 }

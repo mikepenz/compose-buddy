@@ -223,7 +223,7 @@ object DesktopRenderWorker {
         }
 
         val dir = File(req.outputDir).apply { mkdirs() }
-        val nameSuffix = if (req.previewName.isNotBlank()) "_${req.previewName.replace(' ', '_')}" else ""
+        val nameSuffix = if (req.previewName.isNotBlank()) "_${req.previewName.replace(' ', '_').replace(Regex("[^\\x20-\\x7E]"), "_")}" else ""
         val file = File(dir, req.previewFqn.replace('.', '_') + "$nameSuffix.png")
         ImageIO.write(bufferedImage, "png", file)
 
