@@ -1,6 +1,6 @@
 [versions]
 kotlinx-serialization = "1.11.0"
-ktor = "3.4.2"
+ktor = "3.4.3"
 clikt = "5.1.0"
 junit5 = "5.11.4"
 layoutlib = "16.2.3"
