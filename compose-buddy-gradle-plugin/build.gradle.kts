@@ -21,7 +21,7 @@ dependencies {
     implementation(projects.composeBuddyRenderer)
     implementation(projects.composeBuddyCore)
     implementation(libs.kotlinx.serialization.json)
-    compileOnly("com.android.tools.build:gradle:8.13.2")
+    compileOnly("com.android.tools.build:gradle:9.2.1")
 
     "functionalTestImplementation"(gradleTestKit())
     "functionalTestImplementation"(kotlin("test"))
