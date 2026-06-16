@@ -659,40 +659,40 @@ public final class dev/mikepenz/composebuddy/inspector/ui/ComponentTreeKt {
 public final class dev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$InspectorPreviewsKt {
 	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$InspectorPreviewsKt;
 	public fun <init> ()V
-	public final fun getLambda$-110953846$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-1162103712$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-1176970874$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-133479051$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-1605156525$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-1852459560$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-1894419389$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-337924420$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-443892553$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-885268881$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1216868362$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$147740419$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1647732285$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$181772476$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1999965301$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$2054884487$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$347396991$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$632564768$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$790374458$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-110953846$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1162103712$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1176970874$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-133479051$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1605156525$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1852459560$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1894419389$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-337924420$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-443892553$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-885268881$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1216868362$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$147740419$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1647732285$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$181772476$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$1999965301$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$2054884487$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$347396991$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$632564768$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$790374458$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class dev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$SettingsPanelKt {
 	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$SettingsPanelKt;
 	public fun <init> ()V
-	public final fun getLambda$-1236958298$compose_buddy_inspector ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda$1001753808$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$2115517876$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$849747499$compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-1236958298$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$1001753808$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$2115517876$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$849747499$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class dev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$TimelineKt {
 	public static final field INSTANCE Ldev/mikepenz/composebuddy/inspector/ui/ComposableSingletons$TimelineKt;
 	public fun <init> ()V
-	public final fun getLambda$885077957$compose_buddy_inspector ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$885077957$dev_mikepenz_composebuddy_compose_buddy_inspector ()Lkotlin/jvm/functions/Function3;
 }
 
 public final class dev/mikepenz/composebuddy/inspector/ui/GlyphKind : java/lang/Enum {
